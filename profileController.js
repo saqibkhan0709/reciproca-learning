@@ -1,4 +1,4 @@
-const EditorProfile = require("../models/EditorProfile");
+const EditorProfile = require("./EditorProfile");
 
 // CREATE PROFILE
 exports.createProfile = async (req, res) => {

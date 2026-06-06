@@ -1,4 +1,4 @@
-const Application = require("../models/Application");
+const Application = require("./Application");
 
 // APPLY TO JOB
 exports.applyToJob = async (req, res) => {

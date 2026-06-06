@@ -1,6 +1,6 @@
-const LeadUnlock = require("../models/LeadUnlock");
-const EditorProfile = require("../models/EditorProfile");
-const User = require("../models/User");
+const LeadUnlock = require("./LeadUnlock");
+const EditorProfile = require("./EditorProfile");
+const User = require("./User");
 
 // UNLOCK LEAD
 exports.unlockLead = async (req, res) => {
