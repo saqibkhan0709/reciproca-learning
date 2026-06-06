@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RECIPROCA EdiNet</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #050505;
+            color: white;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: #050505;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #f4c400;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .nav a:hover {
+            color: #f4c400;
+        }
+
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .hero-box {
+            max-width: 850px;
+        }
+
+        .hero h1 {
+            font-size: 58px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #f4c400;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .buttons {
+            margin-top: 35px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .btn-yellow {
+            background: #f4c400;
+            color: black;
+        }
+
+        .btn-outline {
+            border: 2px solid #f4c400;
+            color: #f4c400;
+        }
+
+        .features {
+            padding: 50px 20px;
+            text-align: center;
+            background: #0d0d0d;
+        }
+
+        .features h2 {
+            color: #f4c400;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+            margin: 35px auto 0;
+        }
+
+        .card {
+            background: #151515;
+            padding: 25px;
+            border-radius: 18px;
+            border: 1px solid rgba(244,196,0,0.2);
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <div class="logo">
+            RECIPROCA <span>EdiNet</span>
+        </div>
+
+        <div class="nav">
+            <a href="register.html">Register</a>
+            <a href="login.html">Editor Login</a>
+            <a href="editor-profile-view.html">Browse Editors</a>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-box">
+            <h1>
+                The Editing Marketplace Where <span>Editors Keep 100%</span>
+            </h1>
+
+            <p>
+                RECIPROCA EdiNet connects skilled video editors with creators,
+                influencers, brands and businesses. No commission cuts.
+                Editors earn directly and clients discover quality talent.
+            </p>
+
+            <div class="buttons">
+                <a class="btn btn-yellow" href="register.html">
+                    Join as Editor
+                </a>
+
+                <a class="btn btn-outline" href="login.html">
+                    Editor Login
+                </a>
+
+                <a class="btn btn-outline" href="editor-profile-view.html">
+                    Browse Editors
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2>Why RECIPROCA?</h2>
+
+        <div class="feature-grid">
+            <div class="card">
+                <h3>No Commission</h3>
+                <p>Editors keep 100% of their earnings.</p>
+            </div>
+
+            <div class="card">
+                <h3>Sample Work</h3>
+                <p>Clients can view sample edits inside RECIPROCA.</p>
+            </div>
+
+            <div class="card">
+                <h3>Diamond Trust</h3>
+                <p>Editors build diamonds through trust and quality.</p>
+            </div>
+
+            <div class="card">
+                <h3>Lead Unlock</h3>
+                <p>Clients unlock editor contact details through RECIPROCA.</p>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

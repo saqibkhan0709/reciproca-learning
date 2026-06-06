@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RECIPROCA EdiNet - Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            padding: 30px 22px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #000;
+        }
+
+        p {
+            color: #f4c400;
+            font-weight: bold;
+            margin-bottom: 22px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-top: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 18px;
+            background: #f4c400;
+            color: black;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+            word-break: break-word;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                align-items: flex-start;
+                padding-top: 45px;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 28px 18px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>RECIPROCA EdiNet</h1>
+    <p>Editor Login</p>
+
+    <form id="loginForm">
+        <input type="email" id="email" placeholder="Email Address" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+    document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const response = await fetch(
+                "http://https://reciproca-learning.onrender.com/api/auth/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: document.getElementById("email").value,
+                        password: document.getElementById("password").value
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            document.getElementById("result").innerText = data.message;
+
+            if (data.success === true) {
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("userId", data.user.id);
+                localStorage.setItem("userName", data.user.name);
+                localStorage.setItem("userEmail", data.user.email);
+
+                setTimeout(() => {
+                    window.location.href = "create-profile.html";
+                }, 1000);
+            }
+        });
+</script>
+
+</body>
+</html>

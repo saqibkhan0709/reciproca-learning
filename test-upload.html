@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Sample Work - RECIPROCA</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: #fafafa;
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: #000;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #f4c400;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 18px;
+            background: #f4c400;
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 18px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        video {
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 15px;
+            background: black;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Upload Sample Work</h1>
+    <div class="subtitle">Let clients watch your work inside RECIPROCA</div>
+
+    <input type="file" id="video" accept="video/*">
+
+    <input type="text" id="title" placeholder="Sample Work Title">
+
+    <input type="text" id="category" placeholder="Category">
+
+    <button type="button" onclick="uploadVideo()">Upload Sample</button>
+
+    <button type="button" onclick="viewProfile()">View Final Profile</button>
+
+    <div id="result"></div>
+
+    <div id="preview"></div>
+
+</div>
+
+<script>
+    const profileId = localStorage.getItem("profileId");
+
+    if (!profileId) {
+        alert("Please create profile first");
+        window.location.href = "create-profile.html";
+    }
+
+    async function uploadVideo() {
+        const video = document.getElementById("video").files[0];
+        const title = document.getElementById("title").value;
+        const category = document.getElementById("category").value;
+
+        if (!video) {
+            document.getElementById("result").innerText =
+                "Please select a video first";
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("video", video);
+        formData.append("title", title);
+        formData.append("category", category);
+
+        const response = await fetch(
+            "http://https://reciproca-learning.onrender.com/api/upload/sample-work/" + profileId,
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+        const data = await response.json();
+
+        document.getElementById("result").innerText =
+            data.message;
+
+        if (data.success === true) {
+            const latest =
+                data.sampleWorks[data.sampleWorks.length - 1];
+
+            const videoLink =
+                "http://https://reciproca-learning.onrender.com" + latest.videoUrl;
+
+            document.getElementById("preview").innerHTML = `
+                <h3>${latest.title}</h3>
+                <p>${latest.category}</p>
+
+                <video controls>
+                    <source src="${videoLink}">
+                </video>
+            `;
+        }
+    }
+
+    function viewProfile() {
+        window.location.href = "editor-profile-view.html";
+    }
+</script>
+
+</body>
+</html>
