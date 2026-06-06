@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Apply For Job</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+
+body{
+font-family: Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+}
+
+.container{
+margin-top:50px;
+}
+
+button{
+padding:12px 25px;
+background:#22c55e;
+border:none;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Apply For Job</h1>
+
+<p id="editorName"></p>
+<p id="editorSkill"></p>
+<p id="editorPrice"></p>
+<p id="editorPortfolio"></p>
+
+<button onclick="applyJob()">Apply Job</button>
+
+</div>
+
+<script>
+
+const profile = JSON.parse(localStorage.getItem("editorProfile"))
+
+document.getElementById("editorName").innerText =
+"Name : " + profile.name
+
+document.getElementById("editorSkill").innerText =
+"Skill : " + profile.skill
+
+document.getElementById("editorPrice").innerText =
+"Price : ₹" + profile.price
+
+document.getElementById("editorPortfolio").innerText =
+"Portfolio : " + profile.portfolio
+
+
+function applyJob(){
+
+let applications =
+JSON.parse(localStorage.getItem("applications")) || []
+
+applications.push(profile)
+
+localStorage.setItem("applications",JSON.stringify(applications))
+
+alert("Application Sent!")
+
+window.location.href="dashboard.html"
+
+}
+
+</script>
+
+</body>
+</html>

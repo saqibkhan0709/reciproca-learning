@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Messages - RECIPROCA</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+margin:0;
+text-align:center;
+}
+
+h1{
+margin-top:30px;
+}
+
+.chat-box{
+width:500px;
+height:400px;
+background:#1e293b;
+margin:30px auto;
+padding:20px;
+border-radius:10px;
+overflow-y:auto;
+text-align:left;
+}
+
+.message{
+background:#334155;
+padding:10px;
+margin:8px 0;
+border-radius:5px;
+}
+
+input{
+width:350px;
+padding:10px;
+border:none;
+border-radius:5px;
+}
+
+button{
+padding:10px 20px;
+background:black;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+button:hover{
+background:#1e73ff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Project Messages</h1>
+
+<div class="chat-box" id="chatBox"></div>
+
+<input id="messageInput" placeholder="Type your message">
+
+<button onclick="sendMessage()">Send</button>
+
+<script>
+
+let messages = JSON.parse(localStorage.getItem("messages")) || []
+
+const chatBox = document.getElementById("chatBox")
+
+function loadMessages(){
+
+chatBox.innerHTML=""
+
+messages.forEach(msg=>{
+
+let div=document.createElement("div")
+
+div.className="message"
+
+div.innerText=msg
+
+chatBox.appendChild(div)
+
+})
+
+}
+
+function sendMessage(){
+
+const input=document.getElementById("messageInput")
+
+const text=input.value
+
+if(text==="") return
+
+messages.push(text)
+
+localStorage.setItem("messages",JSON.stringify(messages))
+
+input.value=""
+
+loadMessages()
+
+}
+
+loadMessages()
+
+</script>
+
+</body>
+
+</html>

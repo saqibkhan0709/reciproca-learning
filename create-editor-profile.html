@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Create Editor Profile</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+margin:0;
+}
+
+h1{
+margin-top:40px;
+}
+
+.form-box{
+background:#1e293b;
+width:400px;
+margin:40px auto;
+padding:30px;
+border-radius:10px;
+}
+
+input{
+width:90%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:5px;
+}
+
+button{
+padding:10px 20px;
+background:black;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+button:hover{
+background:#1e73ff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Create Editor Profile</h1>
+
+<div class="form-box">
+
+<input id="name" placeholder="Your Name">
+
+<input id="skill" placeholder="Editing Skill (YouTube / Reels / Documentary)">
+
+<input id="price" placeholder="Price per video">
+
+<input id="portfolio" placeholder="Portfolio link">
+
+<button onclick="saveProfile()">Create Profile</button>
+
+</div>
+
+<script>
+
+function saveProfile(){
+
+const name=document.getElementById("name").value
+const skill=document.getElementById("skill").value
+const price=document.getElementById("price").value
+const portfolio=document.getElementById("portfolio").value
+
+const editor={
+name:name,
+skill:skill,
+price:price,
+portfolio:portfolio
+}
+
+let editors=JSON.parse(localStorage.getItem("editors")) || []
+
+editors.push(editor)
+
+localStorage.setItem("editors",JSON.stringify(editors))
+
+alert("Profile Created Successfully")
+
+}
+
+</script>
+
+</body>
+
+</html>

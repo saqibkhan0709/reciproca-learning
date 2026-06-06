@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Submit Bid</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+}
+
+.container{
+margin-top:40px;
+}
+
+input,textarea{
+width:300px;
+padding:10px;
+margin:10px;
+border-radius:5px;
+border:none;
+}
+
+button{
+padding:10px 20px;
+background:black;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+button:hover{
+background:#1e73ff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Submit Your Bid</h1>
+
+<div class="container">
+
+<input id="price" placeholder="Your Price (₹)">
+<br>
+
+<input id="time" placeholder="Delivery Time (days)">
+<br>
+
+<textarea id="message" placeholder="Message to Client"></textarea>
+<br>
+
+<button onclick="submitBid()">Submit Bid</button>
+
+</div>
+
+<script>
+
+function submitBid(){
+
+const price=document.getElementById("price").value
+const time=document.getElementById("time").value
+const message=document.getElementById("message").value
+
+const bid={
+price:price,
+time:time,
+message:message
+}
+
+let bids=JSON.parse(localStorage.getItem("bids")) || []
+
+bids.push(bid)
+
+localStorage.setItem("bids",JSON.stringify(bids))
+
+alert("Bid submitted successfully")
+
+}
+
+</script>
+
+</body>
+
+</html>

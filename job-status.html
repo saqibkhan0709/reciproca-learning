@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Job Status - RECIPROCA</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+margin:0;
+}
+
+h1{
+margin-top:40px;
+}
+
+.status-box{
+background:#1e293b;
+width:400px;
+margin:40px auto;
+padding:30px;
+border-radius:10px;
+}
+
+.status{
+font-size:22px;
+margin:20px 0;
+}
+
+button{
+margin:10px;
+padding:10px 20px;
+background:black;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+button:hover{
+background:#1e73ff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Project Status</h1>
+
+<div class="status-box">
+
+<div class="status" id="statusText"></div>
+
+<button onclick="setStatus('Accepted')">Accept Project</button>
+
+<button onclick="setStatus('In Progress')">Start Work</button>
+
+<button onclick="setStatus('Completed')">Mark Completed</button>
+
+</div>
+
+<script>
+
+let status = localStorage.getItem("jobStatus") || "Posted"
+
+const statusText = document.getElementById("statusText")
+
+function updateStatus(){
+
+statusText.innerText = "Current Status: " + status
+
+}
+
+function setStatus(newStatus){
+
+status = newStatus
+
+localStorage.setItem("jobStatus",status)
+
+updateStatus()
+
+}
+
+updateStatus()
+
+</script>
+
+</body>
+
+</html>

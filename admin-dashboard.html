@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Admin Dashboard - RECIPROCA</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+
+body{
+font-family: Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+margin:0;
+}
+
+h1{
+margin-top:40px;
+}
+
+.dashboard{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:30px;
+margin-top:40px;
+}
+
+.card{
+background:#1e293b;
+width:250px;
+padding:30px;
+border-radius:10px;
+}
+
+.card h2{
+font-size:40px;
+margin:10px 0;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>RECIPROCA Admin Dashboard</h1>
+
+<div class="dashboard">
+
+<div class="card">
+<h3>Total Editors</h3>
+<h2 id="editorCount">0</h2>
+</div>
+
+<div class="card">
+<h3>Total Jobs</h3>
+<h2 id="jobCount">0</h2>
+</div>
+
+<div class="card">
+<h3>Total Bids</h3>
+<h2 id="bidCount">0</h2>
+</div>
+
+<div class="card">
+<h3>Total Messages</h3>
+<h2 id="messageCount">0</h2>
+</div>
+
+</div>
+
+<script>
+
+const editors = JSON.parse(localStorage.getItem("editors")) || []
+const jobs = JSON.parse(localStorage.getItem("jobs")) || []
+const bids = JSON.parse(localStorage.getItem("bids")) || []
+const messages = JSON.parse(localStorage.getItem("messages")) || []
+
+document.getElementById("editorCount").innerText = editors.length
+document.getElementById("jobCount").innerText = jobs.length
+document.getElementById("bidCount").innerText = bids.length
+document.getElementById("messageCount").innerText = messages.length
+
+</script>
+
+</body>
+
+</html>

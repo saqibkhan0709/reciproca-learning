@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Job Board | RECIPROCA</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#f4f4f4;
+}
+
+/* NAVBAR */
+
+.navbar{
+background:black;
+padding:15px;
+}
+
+.navbar a{
+color:white;
+text-decoration:none;
+margin-right:20px;
+font-weight:bold;
+}
+
+/* TITLE */
+
+h1{
+text-align:center;
+margin-top:40px;
+}
+
+/* JOB GRID */
+
+.job-container{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:30px;
+margin-top:40px;
+}
+
+/* CARD */
+
+.job-card{
+background:white;
+width:260px;
+padding:20px;
+border-radius:10px;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.job-card h3{
+color:black;
+}
+
+.job-card p{
+color:#1a73e8;
+}
+
+button{
+background:black;
+color:white;
+border:none;
+padding:10px 16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1a73e8;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="navbar">
+<a href="index.html">Home</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="job-board.html">Show Job Offers</a>
+</div>
+
+<h1>Available Editing Jobs</h1>
+
+<div class="job-container" id="jobs"></div>
+
+<script>
+
+let jobs=JSON.parse(localStorage.getItem("jobs")) || []
+
+let container=document.getElementById("jobs")
+
+jobs.forEach(job=>{
+
+container.innerHTML+=`
+
+<div class="job-card">
+
+<h3>${job.title}</h3>
+
+<p>Length: ${job.length}</p>
+
+<p>Budget: ₹${job.budget}</p>
+
+<p>Deadline: ${job.deadline}</p>
+
+<button>Apply for Job</button>
+
+</div>
+
+`
+
+})
+
+</script>
+
+</body>
+
+</html>
