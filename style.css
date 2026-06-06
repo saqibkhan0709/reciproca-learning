@@ -1,0 +1,67 @@
+body{
+font-family: Arial;
+margin:0;
+padding:0;
+background: #000;
+}
+
+header{
+background:black;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+.logo-main{
+font-size:40px;
+font-weight:bold;
+}
+
+.logo-sub{
+font-size:16px;
+color:lightgray;
+}
+
+nav{
+background:#222;
+padding:10px;
+text-align:center;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin:10px;
+padding:10px 15px;
+background:black;
+border-radius:5px;
+}
+
+nav a:hover{
+background:blue;
+}
+
+.container{
+padding:20px;
+}
+
+.card{
+background:white;
+padding:15px;
+margin:10px 0;
+border-radius:5px;
+box-shadow:0 0 5px gray;
+}
+
+button{
+background:black;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:blue;
+}
