@@ -4,13 +4,13 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const path = require("path");
 
-const authRoutes = require("./routes/authRoutes");
-const profileRoutes = require("./routes/profileRoutes");
-const jobRoutes = require("./routes/jobRoutes");
-const applicationRoutes = require("./routes/applicationRoutes");
-const leadRoutes = require("./routes/leadRoutes");
-const reviewRoutes = require("./routes/reviewRoutes");
-const uploadRoutes = require("./routes/uploadRoutes");
+const authRoutes = require("./authRoutes");
+const profileRoutes = require("./profileRoutes");
+const jobRoutes = require("./jobRoutes");
+const applicationRoutes = require("./applicationRoutes");
+const leadRoutes = require("./leadRoutes");
+const reviewRoutes = require("./reviewRoutes");
+const uploadRoutes = require("./uploadRoutes");
 
 dotenv.config();
 
