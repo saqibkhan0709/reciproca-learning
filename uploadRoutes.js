@@ -4,7 +4,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-const EditorProfile = require("../EditorProfile");
+const EditorProfile = require("./EditorProfile");
 
 const uploadPath = path.join(__dirname, "../uploads");
 

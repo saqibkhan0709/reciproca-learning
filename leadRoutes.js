@@ -5,7 +5,7 @@ const router = express.Router();
 const {
     unlockLead,
     getUnlockedContact
-} = require("../leadController");
+} = require("./leadController");
 
 router.post("/unlock", unlockLead);
 

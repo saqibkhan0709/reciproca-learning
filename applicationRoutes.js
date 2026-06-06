@@ -8,7 +8,7 @@ const {
     getApplicationsByJob,
     updateApplicationStatus,
     getApplicationsByStatus
-} = require("../applicationController");
+} = require("./applicationController");
 
 // APPLY
 router.post("/apply", applyToJob);
