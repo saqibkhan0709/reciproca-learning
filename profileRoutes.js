@@ -7,7 +7,7 @@ const {
     getProfileByUsername,
     updateProfile,
     deleteProfile
-} = require("../controllers/profileController");
+} = require("../profileController");
 
 router.post("/create", createProfile);
 
