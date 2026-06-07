@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RECIPROCA Editor Profile</title>
 
     <style>
@@ -16,21 +17,30 @@
             margin: auto;
             background: white;
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 12px rgba(0,0,0,0.15);
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
         }
 
         h1 {
-            margin-bottom: 5px;
+            color: black;
+        }
+
+        h2 {
+            color: #f4c400;
+        }
+
+        p {
+            font-size: 17px;
         }
 
         .badge {
             display: inline-block;
-            background: black;
-            color: white;
-            padding: 8px 12px;
+            background: #f4c400;
+            color: black;
+            padding: 10px 15px;
             border-radius: 20px;
-            margin: 5px 0;
+            margin: 5px;
+            font-weight: bold;
         }
 
         .samples {
@@ -43,22 +53,26 @@
         .sample-card {
             background: #fafafa;
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 12px;
             border: 1px solid #ddd;
         }
 
         video {
             width: 100%;
             border-radius: 10px;
+            background: black;
         }
 
         button {
-            padding: 12px 20px;
-            background: black;
-            color: white;
+            width: 100%;
+            padding: 15px;
+            background: #f4c400;
+            color: black;
             border: none;
-            border-radius: 8px;
-            margin-top: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
+            font-size: 17px;
+            font-weight: bold;
             cursor: pointer;
         }
     </style>
@@ -71,119 +85,82 @@
 </div>
 
 <script>
-    const username = "saqibeditor";
+    const API_BASE =
+        "https://reciproca-learning.onrender.com";
+
+    const username =
+        localStorage.getItem("username") || "saqibeditor";
 
     async function loadProfile() {
-        const response = await fetch(
-            "https://reciproca-learning.onrender.com/api/profile/" + username
-        );
+        try {
+            const response = await fetch(
+                API_BASE + "/api/profile/" + username
+            );
 
-        const data = await response.json();
+            const data = await response.json();
 
-        const profile = data.profile;
+            const profile =
+                data.profile || data.editor || data;
 
-        let sampleHTML = "";
+            if (!profile || profile.success === false) {
+                document.getElementById("profileBox").innerHTML =
+                    "<h2>Profile not found</h2><p>Please create your profile first.</p>";
+                return;
+            }
 
-        if (profile.sampleWorks && profile.sampleWorks.length > 0) {
-            profile.sampleWorks.forEach(sample => {
-                sampleHTML += `
-                    <div class="sample-card">
-                        <h3>${sample.title}</h3>
-                        <p>${sample.category}</p>
+            let sampleHTML = "";
 
-                        <video controls>
-                            <source src=https://reciproca-learning.onrender.com${sample.videoUrl}">
-                        </video>
-                    </div>
-                `;
-            });
-        } else {
-            sampleHTML = "<p>No sample works uploaded yet.</p>";
+            if (
+                profile.sampleWorks &&
+                profile.sampleWorks.length > 0
+            ) {
+                profile.sampleWorks.forEach(sample => {
+                    sampleHTML += `
+                        <div class="sample-card">
+                            <h3>${sample.title || "Sample Work"}</h3>
+                            <p>${sample.category || "Editing"}</p>
+
+                            <video controls>
+                                <source src="${API_BASE}${sample.videoUrl}">
+                            </video>
+                        </div>
+                    `;
+                });
+            } else {
+                sampleHTML =
+                    "<p>No sample works uploaded yet.</p>";
+            }
+
+            document.getElementById("profileBox").innerHTML = `
+                <h1>${profile.fullName || "RECIPROCA Editor"}</h1>
+
+                <p><strong>Username:</strong> ${profile.username || username}</p>
+                <p><strong>Bio:</strong> ${profile.bio || "Not added"}</p>
+                <p><strong>Experience:</strong> ${profile.experience || 0} years</p>
+                <p><strong>Pricing:</strong> ₹${profile.pricing || 0}</p>
+                <p><strong>Country:</strong> ${profile.country || "Not added"}</p>
+                <p><strong>Languages:</strong> ${(profile.languages || []).join(", ")}</p>
+                <p><strong>Skills:</strong> ${(profile.skills || []).join(", ")}</p>
+
+                <div class="badge">💎 Diamonds: ${profile.diamondCount || 0}</div>
+                <div class="badge">⭐ Reputation: ${profile.reputationPoints || 0}</div>
+
+                <h2>Sample Works</h2>
+
+                <div class="samples">
+                    ${sampleHTML}
+                </div>
+
+                <button>
+                    Unlock Contact ₹59
+                </button>
+            `;
+        } catch (error) {
+            console.error(error);
+
+            document.getElementById("profileBox").innerHTML =
+                "<h2>Something went wrong</h2><p>Please try again later.</p>";
         }
-
-        document.getElementById("profileBox").innerHTML = `
-            <div class="profile-top">
-
-    <h1>
-        ${profile.fullName}
-    </h1>
-
-    <div class="subtitle">
-        RECIPROCA Editor
-    </div>
-
-    <div class="info">
-
-        <p>
-            <strong>Username:</strong>
-            ${profile.username}
-        </p>
-
-        <p>
-            <strong>Bio:</strong>
-            ${profile.bio}
-        </p>
-
-        <p>
-            <strong>Experience:</strong>
-            ${profile.experience} years
-        </p>
-
-        <p>
-            <strong>Pricing:</strong>
-            ₹${profile.pricing}
-        </p>
-
-        <p>
-            <strong>Country:</strong>
-            ${profile.country}
-        </p>
-
-        <p>
-            <strong>Languages:</strong>
-            ${profile.languages.join(", ")}
-        </p>
-
-        <p>
-            <strong>Skills:</strong>
-            ${profile.skills.join(", ")}
-        </p>
-
-    </div>
-
-    <div class="badges">
-
-        <span class="badge">
-            💎 ${profile.diamondCount || 0}
-            Diamonds
-        </span>
-
-        <span class="badge">
-            ⭐ ${profile.reputationPoints || 0}
-            Reputation
-        </span>
-
-    </div>
-
-</div>
-
-<div class="section-title">
-    Sample Works
-</div>
-
-<div class="section-subtitle">
-    Watch editor's previous edits
-</div>
-
-<div class="samples">
-    ${sampleHTML}
-</div>
-
-<button class="unlock-btn">
-    Unlock Contact • ₹59
-</button>
-
-`;
     }
 
     loadProfile();
