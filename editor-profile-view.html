@@ -1,169 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RECIPROCA Editor Profile</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            padding: 30px;
-        }
-
-        .profile {
-            max-width: 900px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 18px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-        }
-
-        h1 {
-            color: black;
-        }
-
-        h2 {
-            color: #f4c400;
-        }
-
-        p {
-            font-size: 17px;
-        }
-
-        .badge {
-            display: inline-block;
-            background: #f4c400;
-            color: black;
-            padding: 10px 15px;
-            border-radius: 20px;
-            margin: 5px;
-            font-weight: bold;
-        }
-
-        .samples {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            margin-top: 25px;
-        }
-
-        .sample-card {
-            background: #fafafa;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #ddd;
-        }
-
-        video {
-            width: 100%;
-            border-radius: 10px;
-            background: black;
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            background: #f4c400;
-            color: black;
-            border: none;
-            border-radius: 12px;
-            margin-top: 25px;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="profile" id="profileBox">
-    Loading profile...
-</div>
-
 <script>
-    const API_BASE =
-        "https://reciproca-learning.onrender.com";
+const API_URL = "https://reciproca-learning.onrender.com";
 
-    const username = localStorage.getItem("username");
+async function loadProfile() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const username = params.get("username");
 
-    async function loadProfile() {
-        try {
-            const response = await fetch(
-                API_BASE + "/api/profile/" + username
-            );
-
-            const data = await response.json();
-
-            const profile =
-                data.profile || data.editor || data;
-
-            if (!profile || profile.success === false) {
-                document.getElementById("profileBox").innerHTML =
-                    "<h2>Profile not found</h2><p>Please create your profile first.</p>";
-                return;
-            }
-
-            let sampleHTML = "";
-
-            if (
-                profile.sampleWorks &&
-                profile.sampleWorks.length > 0
-            ) {
-                profile.sampleWorks.forEach(sample => {
-                    sampleHTML += `
-                        <div class="sample-card">
-                            <h3>${sample.title || "Sample Work"}</h3>
-                            <p>${sample.category || "Editing"}</p>
-
-                            <video controls>
-                                <source src="${API_BASE}${sample.videoUrl}">
-                            </video>
-                        </div>
-                    `;
-                });
-            } else {
-                sampleHTML =
-                    "<p>No sample works uploaded yet.</p>";
-            }
-
-            document.getElementById("profileBox").innerHTML = `
-                <h1>${profile.fullName || "RECIPROCA Editor"}</h1>
-
-                <p><strong>Username:</strong> ${profile.username || username}</p>
-                <p><strong>Bio:</strong> ${profile.bio || "Not added"}</p>
-                <p><strong>Experience:</strong> ${profile.experience || 0} years</p>
-                <p><strong>Pricing:</strong> ₹${profile.pricing || 0}</p>
-                <p><strong>Country:</strong> ${profile.country || "Not added"}</p>
-                <p><strong>Languages:</strong> ${(profile.languages || []).join(", ")}</p>
-                <p><strong>Skills:</strong> ${(profile.skills || []).join(", ")}</p>
-
-                <div class="badge">💎 Diamonds: ${profile.diamondCount || 0}</div>
-                <div class="badge">⭐ Reputation: ${profile.reputationPoints || 0}</div>
-
-                <h2>Sample Works</h2>
-
-                <div class="samples">
-                    ${sampleHTML}
-                </div>
-
-                <button>
-                    Unlock Contact ₹59
-                </button>
-            `;
-        } catch (error) {
-            console.error(error);
-
-            document.getElementById("profileBox").innerHTML =
-                "<h2>Something went wrong</h2><p>Please try again later.</p>";
+        if (!username) {
+            document.body.innerHTML = "<h2>Editor not found</h2>";
+            return;
         }
+
+        const response = await fetch(
+            `${API_URL}/api/profile/${username}`
+        );
+
+        const profile = await response.json();
+
+        if (!profile) {
+            document.body.innerHTML = "<h2>Profile not found</h2>";
+            return;
+        }
+
+        document.getElementById("name").innerText =
+            profile.name || "Unknown";
+
+        document.getElementById("username").innerText =
+            profile.username || "";
+
+        document.getElementById("bio").innerText =
+            profile.bio || "";
+
+        document.getElementById("experience").innerText =
+            profile.experience || "0";
+
+        document.getElementById("pricing").innerText =
+            profile.pricing || "0";
+
+        document.getElementById("country").innerText =
+            profile.country || "";
+
+        document.getElementById("languages").innerText =
+            profile.languages || "";
+
+        document.getElementById("skills").innerText =
+            profile.skills || "";
+
+        // Sample works section
+        const sampleWorksDiv =
+            document.getElementById("sampleWorks");
+
+        sampleWorksDiv.innerHTML = "";
+
+        if (
+            profile.sampleWorks &&
+            profile.sampleWorks.length > 0
+        ) {
+            profile.sampleWorks.forEach(work => {
+                const workCard =
+                    document.createElement("div");
+
+                workCard.style.marginBottom = "20px";
+                workCard.style.padding = "20px";
+                workCard.style.border =
+                    "1px solid #ddd";
+                workCard.style.borderRadius =
+                    "15px";
+
+                workCard.innerHTML = `
+                    <h3>${work.title}</h3>
+                    <p>${work.description}</p>
+
+                    <video controls width="100%">
+                        <source src="${API_URL}${work.video}" type="video/mp4">
+                    </video>
+                `;
+
+                sampleWorksDiv.appendChild(
+                    workCard
+                );
+            });
+        } else {
+            sampleWorksDiv.innerHTML =
+                "<p>No sample works uploaded yet.</p>";
+        }
+
+    } catch (error) {
+        console.error(error);
+        document.body.innerHTML =
+            "<h2>Failed to load profile</h2>";
     }
+}
 
-    loadProfile();
+// Razorpay unlock button
+function unlockContact() {
+    window.open(
+        "https://rzp.io/rzp/YJmlfvYz",
+        "_blank"
+    );
+}
+
+loadProfile();
 </script>
-
-</body>
-</html>
