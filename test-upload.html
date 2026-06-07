@@ -118,7 +118,7 @@
         formData.append("category", category);
 
         const response = await fetch(
-            "http://https://reciproca-learning.onrender.com/api/upload/sample-work/" + profileId,
+            "https://reciproca-learning.onrender.com/api/upload/sample-work/" + profileId,
             {
                 method: "POST",
                 body: formData
@@ -135,7 +135,7 @@
                 data.sampleWorks[data.sampleWorks.length - 1];
 
             const videoLink =
-                "http://https://reciproca-learning.onrender.com" + latest.videoUrl;
+                "https://reciproca-learning.onrender.com" + latest.videoUrl;
 
             document.getElementById("preview").innerHTML = `
                 <h3>${latest.title}</h3>
