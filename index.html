@@ -30,14 +30,17 @@
             color: #f4c400;
         }
 
-        .nav a {
+        .nav button {
+            background: none;
+            border: none;
             color: white;
-            text-decoration: none;
-            margin-left: 20px;
+            margin-left: 18px;
             font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
         }
 
-        .nav a:hover {
+        .nav button:hover {
             color: #f4c400;
         }
 
@@ -78,11 +81,12 @@
         }
 
         .btn {
-            text-decoration: none;
             padding: 16px 28px;
             border-radius: 12px;
             font-weight: bold;
-            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
         }
 
         .btn-yellow {
@@ -91,6 +95,7 @@
         }
 
         .btn-outline {
+            background: transparent;
             border: 2px solid #f4c400;
             color: #f4c400;
         }
@@ -128,7 +133,7 @@
             }
 
             .hero h1 {
-                font-size: 38px;
+                font-size: 36px;
             }
 
             .hero p {
@@ -146,9 +151,9 @@
         </div>
 
         <div class="nav">
-            <a href="register.html">Register</a>
-            <a href="login.html">Editor Login</a>
-            <a href="editor-profile-view.html">Browse Editors</a>
+            <button onclick="goToRegister()">Register</button>
+            <button onclick="goToLogin()">Editor Login</button>
+            <button onclick="goToEditors()">Browse Editors</button>
         </div>
     </div>
 
@@ -165,17 +170,17 @@
             </p>
 
             <div class="buttons">
-                <a class="btn btn-yellow" href="register.html">
+                <button class="btn btn-yellow" onclick="goToRegister()">
                     Join as Editor
-                </a>
+                </button>
 
-                <a class="btn btn-outline" href="login.html">
+                <button class="btn btn-outline" onclick="goToLogin()">
                     Editor Login
-                </a>
+                </button>
 
-                <a class="btn btn-outline" href="editor-profile-view.html">
+                <button class="btn btn-outline" onclick="goToEditors()">
                     Browse Editors
-                </a>
+                </button>
             </div>
         </div>
     </section>
@@ -205,6 +210,20 @@
             </div>
         </div>
     </section>
+
+    <script>
+        function goToRegister() {
+            window.location.href = "register.html";
+        }
+
+        function goToLogin() {
+            window.location.href = "login.html";
+        }
+
+        function goToEditors() {
+            window.location.href = "editor-profile-view.html";
+        }
+    </script>
 
 </body>
 </html>
