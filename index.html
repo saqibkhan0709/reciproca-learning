@@ -1,229 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RECIPROCA EdiNet</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RECIPROCA EdiNet</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #050505;
-            color: white;
-        }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 60px;
-            background: #050505;
-        }
+body{
+    background:#f4f4f4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
 
-        .logo {
-            font-size: 26px;
-            font-weight: bold;
-        }
+.container{
+    background:white;
+    width:100%;
+    max-width:1000px;
+    border-radius:25px;
+    padding:50px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    text-align:center;
+}
 
-        .logo span {
-            color: #f4c400;
-        }
+h1{
+    font-size:48px;
+    margin-bottom:15px;
+}
 
-        .nav button {
-            background: none;
-            border: none;
-            color: white;
-            margin-left: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 15px;
-        }
+.highlight{
+    color:#f4c400;
+}
 
-        .nav button:hover {
-            color: #f4c400;
-        }
+.subtitle{
+    color:#666;
+    margin-bottom:40px;
+    font-size:18px;
+}
 
-        .hero {
-            min-height: 85vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-            text-align: center;
-        }
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
 
-        .hero-box {
-            max-width: 850px;
-        }
+.card{
+    background:#fafafa;
+    border:2px solid #eee;
+    border-radius:20px;
+    padding:35px;
+    transition:0.3s;
+}
 
-        .hero h1 {
-            font-size: 58px;
-            margin-bottom: 20px;
-        }
+.card:hover{
+    transform:translateY(-6px);
+    border-color:#f4c400;
+}
 
-        .hero h1 span {
-            color: #f4c400;
-        }
+.card h2{
+    margin-bottom:15px;
+    color:#000;
+}
 
-        .hero p {
-            font-size: 20px;
-            color: #ccc;
-            line-height: 1.6;
-        }
+.card p{
+    color:#555;
+    line-height:1.6;
+    margin-bottom:25px;
+}
 
-        .buttons {
-            margin-top: 35px;
-            display: flex;
-            justify-content: center;
-            gap: 18px;
-            flex-wrap: wrap;
-        }
+.btn{
+    background:#f4c400;
+    color:black;
+    text-decoration:none;
+    padding:14px 24px;
+    border-radius:12px;
+    font-weight:bold;
+    display:inline-block;
+    transition:0.3s;
+}
 
-        .btn {
-            padding: 16px 28px;
-            border-radius: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-            font-size: 16px;
-        }
+.btn:hover{
+    opacity:0.9;
+}
 
-        .btn-yellow {
-            background: #f4c400;
-            color: black;
-        }
+.login-link{
+    display:inline-block;
+    margin-top:15px;
+    color:#000;
+    text-decoration:none;
+    font-weight:bold;
+}
 
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #f4c400;
-            color: #f4c400;
-        }
+.login-link:hover{
+    color:#f4c400;
+}
 
-        .features {
-            padding: 50px 20px;
-            text-align: center;
-            background: #0d0d0d;
-        }
+.footer{
+    margin-top:35px;
+    color:#888;
+    font-size:14px;
+}
 
-        .features h2 {
-            color: #f4c400;
-        }
+@media(max-width:768px){
+    h1{
+        font-size:34px;
+    }
 
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-            max-width: 1000px;
-            margin: 35px auto 0;
-        }
-
-        .card {
-            background: #151515;
-            padding: 25px;
-            border-radius: 18px;
-            border: 1px solid rgba(244,196,0,0.2);
-        }
-
-        @media (max-width: 600px) {
-            .navbar {
-                flex-direction: column;
-                gap: 15px;
-                padding: 20px;
-            }
-
-            .hero h1 {
-                font-size: 36px;
-            }
-
-            .hero p {
-                font-size: 16px;
-            }
-        }
-    </style>
+    .container{
+        padding:30px 20px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <div class="navbar">
-        <div class="logo">
-            RECIPROCA <span>EdiNet</span>
-        </div>
+<div class="container">
 
-        <div class="nav">
-            <button onclick="goToRegister()">Register</button>
-            <button onclick="goToLogin()">Editor Login</button>
-            <button onclick="goToEditors()">Browse Editors</button>
-        </div>
-    </div>
+    <h1>
+        Welcome to <span class="highlight">RECIPROCA EdiNet</span>
+    </h1>
 
-    <section class="hero">
-        <div class="hero-box">
-            <h1>
-                The Editing Marketplace Where <span>Editors Keep 100%</span>
-            </h1>
+    <p class="subtitle">
+        Choose how you want to enter the platform
+    </p>
+
+    <div class="cards">
+
+        <div class="card">
+            <h2>🎬 I am an Editor</h2>
 
             <p>
-                RECIPROCA EdiNet connects skilled video editors with creators,
-                influencers, brands and businesses. No commission cuts.
-                Editors earn directly and clients discover quality talent.
+                Create your editor profile, upload sample work,
+                showcase your talent and get discovered by clients.
             </p>
 
-            <div class="buttons">
-                <button class="btn btn-yellow" onclick="goToRegister()">
-                    Join as Editor
-                </button>
+            <a href="new-register.html" class="btn">
+                Create Editor Profile
+            </a>
 
-                <button class="btn btn-outline" onclick="goToLogin()">
-                    Editor Login
-                </button>
+            <br>
 
-                <button class="btn btn-outline" onclick="goToEditors()">
-                    Browse Editors
-                </button>
-            </div>
+            <a href="login.html" class="login-link">
+                Already Registered? Login
+            </a>
         </div>
-    </section>
 
-    <section class="features">
-        <h2>Why RECIPROCA?</h2>
+        <div class="card">
+            <h2>🤝 I am a Client</h2>
 
-        <div class="feature-grid">
-            <div class="card">
-                <h3>No Commission</h3>
-                <p>Editors keep 100% of their earnings.</p>
-            </div>
+            <p>
+                Browse talented editors, view their sample work,
+                compare profiles and unlock editor contact details.
+            </p>
 
-            <div class="card">
-                <h3>Sample Work</h3>
-                <p>Clients can view sample edits inside RECIPROCA.</p>
-            </div>
-
-            <div class="card">
-                <h3>Diamond Trust</h3>
-                <p>Editors build diamonds through trust and quality.</p>
-            </div>
-
-            <div class="card">
-                <h3>Lead Unlock</h3>
-                <p>Clients unlock editor contact details through RECIPROCA.</p>
-            </div>
+            <a href="browse-editors.html" class="btn">
+                Browse Editors
+            </a>
         </div>
-    </section>
 
-    <script>
-        function goToRegister() {
-            window.location.href = "register.html";
-        }
+    </div>
 
-        function goToLogin() {
-            window.location.href = "login.html";
-        }
+    <div class="footer">
+        No commissions. Editors keep 100% of their earnings.
+    </div>
 
-        function goToEditors() {
-            window.location.href = "editor-profile-view.html";
-        }
-    </script>
+</div>
 
 </body>
 </html>
