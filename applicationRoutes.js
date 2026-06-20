@@ -1,18 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
-const appController = require("./applicationController");
+const {
+    applyToJob,
+    getAllApplications,
+    getApplicationsByJob,
+    updateApplicationStatus,
+    getApplicationsByStatus
+} = require("./applicationController");
 
-console.log("applyToJob =", typeof appController.applyToJob);
-console.log("getAllApplications =", typeof appController.getAllApplications);
-console.log("getApplicationsByJob =", typeof appController.getApplicationsByJob);
-console.log("updateApplicationStatus =", typeof appController.updateApplicationStatus);
-console.log("getApplicationsByStatus =", typeof appController.getApplicationsByStatus);
-
-router.post("/apply", appController.applyToJob);
-router.get("/all", appController.getAllApplications);
-router.get("/job/:jobId", appController.getApplicationsByJob);
-router.put("/status/:id", appController.updateApplicationStatus);
-router.get("/status/:status", appController.getApplicationsByStatus);
+router.post("/apply", applyToJob);
+router.get("/all", getAllApplications);
+router.get("/job/:jobId", getApplicationsByJob);
+router.put("/status/:id", updateApplicationStatus);
+router.get("/status/:status", getApplicationsByStatus);
 
 module.exports = router;
