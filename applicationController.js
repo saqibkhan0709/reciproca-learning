@@ -102,3 +102,10 @@ exports.login = async (req, res) => {
         });
     }
 };
+module.exports = {
+    applyToJob,
+    getAllApplications,
+    getApplicationsByJob,
+    updateApplicationStatus,
+    getApplicationsByStatus
+};
