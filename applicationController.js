@@ -1,186 +1,104 @@
-const Application = require("./Application");
+const User = require("./User");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-// APPLY TO JOB
-exports.applyToJob = async (req, res) => {
-try {
+// REGISTER
+exports.register = async (req, res) => {
+    try {
+        let {
+            name,
+            email,
+            password,
+            role,
+            phone,
+            whatsapp
+        } = req.body;
 
-    const {
-        jobId,
-        editorId,
-        coverLetter
-    } = req.body;
+        email = email.trim().toLowerCase();
 
-    const existingApplication =
-        await Application.findOne({
-            jobId,
-            editorId
-        });
+        const existingUser = await User.findOne({ email });
 
-    if (existingApplication) {
-        return res.status(400).json({
-            success: false,
-            message:
-                "You have already applied to this job"
-        });
-    }
-
-    const application =
-        await Application.create({
-            jobId,
-            editorId,
-            coverLetter,
-            status: "Pending"
-        });
-
-    res.status(201).json({
-        success: true,
-        message: "Application Submitted",
-        application
-    });
-
-} catch (error) {
-
-    console.error(error);
-
-    res.status(500).json({
-        success: false,
-        message: "Server Error"
-    });
-
-}
-
-};
-
-// GET ALL APPLICATIONS
-exports.getAllApplications = async (
-req,
-res
-) => {
-try {
-
-    const applications =
-        await Application.find()
-        .populate("jobId")
-        .populate("editorId");
-
-    res.status(200).json({
-        success: true,
-        count: applications.length,
-        applications
-    });
-
-} catch (error) {
-
-    console.error(error);
-
-    res.status(500).json({
-        success: false,
-        message: "Server Error"
-    });
-
-}
-
-};
-
-// GET APPLICATIONS FOR A JOB
-exports.getApplicationsByJob = async (
-req,
-res
-) => {
-try {
-
-    const applications =
-        await Application.find({
-            jobId: req.params.jobId
-        })
-        .populate("editorId");
-
-    res.status(200).json({
-        success: true,
-        count: applications.length,
-        applications
-    });
-
-} catch (error) {
-
-    console.error(error);
-
-    res.status(500).json({
-        success: false,
-        message: "Server Error"
-    });
-
-}
-
-};
-
-// UPDATE APPLICATION STATUS
-exports.updateApplicationStatus =
-async (req, res) => {
-try {
-
-        const application =
-            await Application.findByIdAndUpdate(
-                req.params.id,
-                {
-                    status: req.body.status
-                },
-                {
-                    new: true
-                }
-            );
-
-        if (!application) {
-            return res.status(404).json({
+        if (existingUser) {
+            return res.status(400).json({
                 success: false,
-                message:
-                    "Application Not Found"
+                message: "User already exists. Please login."
             });
         }
 
-        res.status(200).json({
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = await User.create({
+            name,
+            email,
+            password: hashedPassword,
+            role: role || "editor",
+            phone: phone || "",
+            whatsapp: whatsapp || ""
+        });
+
+        res.status(201).json({
             success: true,
-            message:
-                "Application Updated",
-            application
+            message: "Registration Successful",
+            user
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             message: "Server Error"
         });
-
     }
 };
 
-// GET APPLICATIONS BY STATUS
-exports.getApplicationsByStatus =
-async (req, res) => {
-try {
+// LOGIN
+exports.login = async (req, res) => {
+    try {
+        let { email, password } = req.body;
 
-        const applications =
-            await Application.find({
-                status: req.params.status
+        email = email.trim().toLowerCase();
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found. Please register first."
             });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid Password"
+            });
+        }
+
+        const token = jwt.sign(
+            {
+                id: user._id,
+                role: user.role
+            },
+            process.env.JWT_SECRET || "reciproca_secret",
+            {
+                expiresIn: "7d"
+            }
+        );
 
         res.status(200).json({
             success: true,
-            count: applications.length,
-            applications
+            message: "Login Successful",
+            token,
+            user
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             message: "Server Error"
         });
-
     }
 };
