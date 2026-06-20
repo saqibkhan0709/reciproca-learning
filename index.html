@@ -4,177 +4,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RECIPROCA EdiNet</title>
-
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
-
-body{
-    background:#f4f4f4;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    padding:20px;
-}
-
-.container{
-    background:white;
-    width:100%;
-    max-width:1000px;
-    border-radius:25px;
-    padding:50px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.1);
-    text-align:center;
-}
-
-h1{
-    font-size:48px;
-    margin-bottom:15px;
-}
-
-.highlight{
-    color:#f4c400;
-}
-
-.subtitle{
-    color:#666;
-    margin-bottom:40px;
-    font-size:18px;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:30px;
-}
-
-.card{
-    background:#fafafa;
-    border:2px solid #eee;
-    border-radius:20px;
-    padding:35px;
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:translateY(-6px);
-    border-color:#f4c400;
-}
-
-.card h2{
-    margin-bottom:15px;
-    color:#000;
-}
-
-.card p{
-    color:#555;
-    line-height:1.6;
-    margin-bottom:25px;
-}
-
-.btn{
-    background:#f4c400;
-    color:black;
-    text-decoration:none;
-    padding:14px 24px;
-    border-radius:12px;
-    font-weight:bold;
-    display:inline-block;
-    transition:0.3s;
-}
-
-.btn:hover{
-    opacity:0.9;
-}
-
-.login-link{
-    display:inline-block;
-    margin-top:15px;
-    color:#000;
-    text-decoration:none;
-    font-weight:bold;
-}
-
-.login-link:hover{
-    color:#f4c400;
-}
-
-.footer{
-    margin-top:35px;
-    color:#888;
-    font-size:14px;
-}
-
-@media(max-width:768px){
-    h1{
-        font-size:34px;
-    }
-
-    .container{
-        padding:30px 20px;
-    }
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{background:#f4f4f4;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;}
+.container{background:white;width:100%;max-width:1000px;border-radius:25px;padding:50px;box-shadow:0 10px 30px rgba(0,0,0,0.1);text-align:center;}
+h1{font-size:48px;margin-bottom:15px;}
+.highlight{color:#f4c400;}
+.subtitle{color:#666;margin-bottom:40px;font-size:18px;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
+.card{background:#fafafa;border:2px solid #eee;border-radius:20px;padding:35px;transition:0.3s;}
+.card:hover{transform:translateY(-6px);border-color:#f4c400;}
+.card h2{margin-bottom:15px;color:#000;}
+.card p{color:#555;line-height:1.6;margin-bottom:25px;}
+.btn{background:#f4c400;color:black;text-decoration:none;padding:14px 24px;border-radius:12px;font-weight:bold;display:inline-block;}
+.login-link{display:inline-block;margin-top:15px;color:#000;text-decoration:none;font-weight:bold;}
+.footer{margin-top:35px;color:#888;font-size:14px;}
+@media(max-width:768px){h1{font-size:34px}.container{padding:30px 20px}}
 </style>
 </head>
 
 <body>
-
 <div class="container">
+  <h1>Welcome to <span class="highlight">RECIPROCA EdiNet</span></h1>
+  <p class="subtitle">Choose how you want to enter the platform</p>
 
-    <h1>
-        Welcome to <span class="highlight">RECIPROCA EdiNet</span>
-    </h1>
+  <div class="cards">
+    <div class="card">
+      <h2>🎬 I am an Editor</h2>
+      <p>Create your editor profile, upload sample work, showcase your talent and get discovered by clients.</p>
 
-    <p class="subtitle">
-        Choose how you want to enter the platform
-    </p>
-
-    <div class="cards">
-
-        <div class="card">
-            <h2>🎬 I am an Editor</h2>
-
-            <p>
-                Create your editor profile, upload sample work,
-                showcase your talent and get discovered by clients.
-            </p>
-
-            <a href="new-register.html" class="btn">
-                Create Editor Profile
-            </a>
-
-            <br>
-
-            <a href="login.html" class="login-link">
-                Already Registered? Login
-            </a>
-        </div>
-
-        <div class="card">
-            <h2>🤝 I am a Client</h2>
-
-            <p>
-                Browse talented editors, view their sample work,
-                compare profiles and unlock editor contact details.
-            </p>
-
-            <a href="browse-editors.html" class="btn">
-                Browse Editors
-            </a>
-        </div>
-
+      <a href="new-register.html" class="btn">Create Editor Profile</a>
+      <br>
+      <a href="login.html" class="login-link">Already Registered? Login</a>
     </div>
 
-    <div class="footer">
-        No commissions. Editors keep 100% of their earnings.
-    </div>
+    <div class="card">
+      <h2>🤝 I am a Client</h2>
+      <p>Browse talented editors, view their sample work, compare profiles and unlock editor contact details.</p>
 
+      <a href="browse-editors.html" class="btn">Browse Editors</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    No commissions. Editors keep 100% of their earnings.
+  </div>
 </div>
-
 </body>
 </html>
