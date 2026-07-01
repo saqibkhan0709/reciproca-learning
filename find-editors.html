@@ -1,40 +1,166 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-<title>Find Editors</title>
-<link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Editors - RECIPROCA EdiNet</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f4f4;
+    min-height:100vh;
+    padding:20px;
+}
+
+.container{
+    background:white;
+    max-width:1100px;
+    margin:30px auto;
+    border-radius:25px;
+    padding:45px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+.header{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.header h1{
+    font-size:42px;
+}
+
+.highlight{
+    color:#f4c400;
+}
+
+.header p{
+    color:#666;
+    margin-top:10px;
+}
+
+.nav{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.nav a{
+    text-decoration:none;
+    color:#000;
+    font-weight:bold;
+    margin:0 12px;
+}
+
+.editors{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:#fafafa;
+    border:2px solid #eee;
+    border-radius:20px;
+    padding:30px;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:#f4c400;
+}
+
+.card h2{
+    margin-bottom:12px;
+}
+
+.card p{
+    color:#555;
+    line-height:1.6;
+    margin-bottom:10px;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:15px;
+    background:#f4c400;
+    color:#000;
+    text-decoration:none;
+    padding:12px 22px;
+    border-radius:12px;
+    font-weight:bold;
+}
+
+.footer{
+    text-align:center;
+    margin-top:35px;
+    color:#888;
+    font-size:14px;
+}
+
+@media(max-width:768px){
+    .container{
+        padding:25px;
+    }
+
+    .header h1{
+        font-size:32px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<header>
-<div class="logo-main">RECIPROCA</div>
-<div class="logo-sub">EdiNet</div>
-</header>
-
-<nav>
-<a href="index.html">Home</a>
-<a href="dashboard.html">Dashboard</a>
-<a href="job-offer.html">Show Job Offers</a>
-<a href="profile.html">Profile</a>
-</nav>
-
 <div class="container">
 
-<h2>Find Editors</h2>
+    <div class="header">
+        <h1>Find <span class="highlight">Editors</span></h1>
+        <p>Browse editor profiles and connect with the right talent.</p>
+    </div>
 
-<div class="card">
-<h3>John – Video Editor</h3>
-<p>Speciality: YouTube Editing</p>
-<button onclick="location.href='hire-request.html'">Hire</button>
-</div>
+    <div class="nav">
+        <a href="index.html">Home</a>
+        <a href="new-register.html">Editor Register</a>
+        <a href="login.html">Editor Login</a>
+    </div>
 
-<div class="card">
-<h3>Sarah – Film Editor</h3>
-<p>Speciality: Cinematic Editing</p>
-<button onclick="location.href='hire-request.html'">Hire</button>
-</div>
+    <div class="editors">
+
+        <div class="card">
+            <h2>John – Video Editor</h2>
+            <p><b>Speciality:</b> YouTube Editing</p>
+            <p><b>Experience:</b> 2 years</p>
+            <p><b>Pricing:</b> ₹499 onwards</p>
+
+            <a href="hire-request.html" class="btn">
+                Hire Editor
+            </a>
+        </div>
+
+        <div class="card">
+            <h2>Sarah – Film Editor</h2>
+            <p><b>Speciality:</b> Cinematic Editing</p>
+            <p><b>Experience:</b> 3 years</p>
+            <p><b>Pricing:</b> ₹799 onwards</p>
+
+            <a href="hire-request.html" class="btn">
+                Hire Editor
+            </a>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        RECIPROCA EdiNet • Editors Keep 100% Earnings
+    </div>
 
 </div>
 
