@@ -1,65 +1,87 @@
 const EditorProfile = require("./EditorProfile");
 
-// CREATE PROFILE
 exports.createProfile = async (req, res) => {
     try {
+        const {
+            userId,
+            name,
+            bio,
+            experience,
+            pricing,
+            country,
+            languages,
+            skills,
+            specialization,
+            phone,
+            whatsapp,
+            email,
+            profilePhoto,
+            showreelVideo,
+            sampleVideos
+        } = req.body;
 
-        const profile = await EditorProfile.create(req.body);
+        const profile = await EditorProfile.create({
+            userId,
+            name,
+            bio,
+            experience,
+            pricing,
+            country,
+            languages,
+            skills,
+            specialization,
+            phone,
+            whatsapp,
+            email,
+            profilePhoto,
+            showreelVideo,
+            sampleVideos
+        });
 
         res.status(201).json({
             success: true,
-            message: "Profile Created",
+            message: "Editor profile created successfully",
             profile
         });
 
     } catch (error) {
-
-        console.log(error);
+        console.error(error);
 
         res.status(500).json({
             success: false,
             message: "Server Error"
         });
-
     }
 };
 
-// GET ALL EDITORS
-exports.getAllEditors = async (req, res) => {
+exports.getAllProfiles = async (req, res) => {
     try {
-
-        const editors = await EditorProfile.find();
+        const profiles = await EditorProfile.find().sort({ createdAt: -1 });
 
         res.status(200).json({
             success: true,
-            count: editors.length,
-            editors
+            count: profiles.length,
+            profiles
         });
 
     } catch (error) {
-
-        console.log(error);
+        console.error(error);
 
         res.status(500).json({
             success: false,
             message: "Server Error"
         });
-
     }
 };
 
-// GET EDITOR BY USERNAME
-exports.getProfileByUsername = async (req, res) => {
+exports.getProfileById = async (req, res) => {
     try {
-
-        const profile = await EditorProfile.findOne({
-            username: req.params.username
-        });
+        const profile = await EditorProfile.findById(req.params.id);
 
         if (!profile) {
             return res.status(404).json({
                 success: false,
-                message: "Profile Not Found"
+                message: "Profile not found"
             });
         }
 
@@ -69,82 +91,11 @@ exports.getProfileByUsername = async (req, res) => {
         });
 
     } catch (error) {
-
-        console.log(error);
-
-        res.status(500).json({
-            success: false,
-            message: "Server Error"
-        });
-
-    }
-};
-
-// UPDATE PROFILE
-exports.updateProfile = async (req, res) => {
-    try {
-
-        const profile = await EditorProfile.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            {
-                new: true
-            }
-        );
-
-        if (!profile) {
-            return res.status(404).json({
-                success: false,
-                message: "Profile Not Found"
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            message: "Profile Updated",
-            profile
-        });
-
-    } catch (error) {
-
-        console.log(error);
+        console.error(error);
 
         res.status(500).json({
             success: false,
             message: "Server Error"
         });
-
-    }
-};
-
-// DELETE PROFILE
-exports.deleteProfile = async (req, res) => {
-    try {
-
-        const profile = await EditorProfile.findByIdAndDelete(
-            req.params.id
-        );
-
-        if (!profile) {
-            return res.status(404).json({
-                success: false,
-                message: "Profile Not Found"
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            message: "Profile Deleted"
-        });
-
-    } catch (error) {
-
-        console.log(error);
-
-        res.status(500).json({
-            success: false,
-            message: "Server Error"
-        });
-
     }
 };
