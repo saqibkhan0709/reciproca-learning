@@ -3,20 +3,14 @@ const router = express.Router();
 
 const {
     createProfile,
-    getAllEditors,
-    getProfileByUsername,
-    updateProfile,
-    deleteProfile
+    getAllProfiles,
+    getProfileById
 } = require("./profileController");
 
 router.post("/create", createProfile);
 
-router.get("/editors", getAllEditors);
+router.get("/all", getAllProfiles);
 
-router.get("/:username", getProfileByUsername);
-
-router.put("/update/:id", updateProfile);
-
-router.delete("/delete/:id", deleteProfile);
+router.get("/:id", getProfileById);
 
 module.exports = router;
