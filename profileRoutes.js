@@ -3,14 +3,10 @@ const router = express.Router();
 
 const {
     createProfile,
-    getAllProfiles,
-    getProfileById
+    getAllProfiles
 } = require("./profileController");
 
 router.post("/create", createProfile);
-
 router.get("/all", getAllProfiles);
-
-router.get("/:id", getProfileById);
 
 module.exports = router;
