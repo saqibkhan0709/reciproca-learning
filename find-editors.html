@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Find Editors - RECIPROCA EdiNet</title>
+<title>Browse Editors - RECIPROCA EdiNet</title>
 
 <style>
 *{
@@ -15,22 +15,21 @@
 
 body{
     background:#f4f4f4;
-    min-height:100vh;
     padding:20px;
 }
 
 .container{
-    background:white;
     max-width:1100px;
-    margin:30px auto;
-    border-radius:25px;
-    padding:45px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    margin:auto;
 }
 
 .header{
+    background:white;
+    padding:35px;
+    border-radius:25px;
     text-align:center;
-    margin-bottom:35px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    margin-bottom:30px;
 }
 
 .header h1{
@@ -41,73 +40,70 @@ body{
     color:#f4c400;
 }
 
-.header p{
-    color:#666;
-    margin-top:10px;
-}
-
-.nav{
-    text-align:center;
+.editor-card{
+    background:white;
+    border-radius:25px;
     margin-bottom:30px;
+    overflow:hidden;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
 }
 
-.nav a{
-    text-decoration:none;
-    color:#000;
-    font-weight:bold;
-    margin:0 12px;
+.video-box video{
+    width:100%;
+    height:420px;
+    object-fit:cover;
+    background:#000;
 }
 
-.editors{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:25px;
-}
-
-.card{
-    background:#fafafa;
-    border:2px solid #eee;
-    border-radius:20px;
+.info{
     padding:30px;
-    transition:0.3s;
 }
 
-.card:hover{
-    transform:translateY(-5px);
-    border-color:#f4c400;
+.info h2{
+    font-size:28px;
+    margin-bottom:8px;
 }
 
-.card h2{
-    margin-bottom:12px;
-}
-
-.card p{
+.info p{
     color:#555;
-    line-height:1.6;
-    margin-bottom:10px;
+    margin:8px 0;
+    line-height:1.5;
+}
+
+.badges{
+    margin:15px 0;
+}
+
+.badge{
+    display:inline-block;
+    background:#f4c400;
+    padding:8px 14px;
+    border-radius:20px;
+    margin:5px;
+    font-weight:bold;
 }
 
 .btn{
     display:inline-block;
-    margin-top:15px;
     background:#f4c400;
-    color:#000;
+    color:black;
     text-decoration:none;
-    padding:12px 22px;
+    padding:13px 22px;
     border-radius:12px;
     font-weight:bold;
+    margin-right:10px;
+    margin-top:15px;
 }
 
-.footer{
+.loading{
     text-align:center;
-    margin-top:35px;
-    color:#888;
-    font-size:14px;
+    font-size:20px;
+    color:#555;
 }
 
 @media(max-width:768px){
-    .container{
-        padding:25px;
+    .video-box video{
+        height:240px;
     }
 
     .header h1{
@@ -122,47 +118,112 @@ body{
 <div class="container">
 
     <div class="header">
-        <h1>Find <span class="highlight">Editors</span></h1>
-        <p>Browse editor profiles and connect with the right talent.</p>
+        <h1>Browse <span class="highlight">Editors</span></h1>
+        <p>Watch sample work while scrolling and choose the right editor.</p>
     </div>
 
-    <div class="nav">
-        <a href="index.html">Home</a>
-        <a href="new-register.html">Editor Register</a>
-        <a href="login.html">Editor Login</a>
-    </div>
-
-    <div class="editors">
-
-        <div class="card">
-            <h2>John – Video Editor</h2>
-            <p><b>Speciality:</b> YouTube Editing</p>
-            <p><b>Experience:</b> 2 years</p>
-            <p><b>Pricing:</b> ₹499 onwards</p>
-
-            <a href="hire-requests.html" class="btn">
-                Hire Editor
-            </a>
-        </div>
-
-        <div class="card">
-            <h2>Sarah – Film Editor</h2>
-            <p><b>Speciality:</b> Cinematic Editing</p>
-            <p><b>Experience:</b> 3 years</p>
-            <p><b>Pricing:</b> ₹799 onwards</p>
-
-            <a href="hire-requests.html" class="btn">
-                Hire Editor
-            </a>
-        </div>
-
-    </div>
-
-    <div class="footer">
-        RECIPROCA EdiNet • Editors Keep 100% Earnings
+    <div id="editorsList" class="loading">
+        Loading editors...
     </div>
 
 </div>
+
+<script>
+const API_URL = "https://reciproca-learning.onrender.com/api/profile/all";
+
+async function loadEditors(){
+    const editorsList = document.getElementById("editorsList");
+
+    try{
+        const response = await fetch(API_URL);
+        const data = await response.json();
+
+        if(!data.success || data.profiles.length === 0){
+            editorsList.innerHTML = "No editors found yet.";
+            return;
+        }
+
+        editorsList.className = "";
+
+        editorsList.innerHTML = data.profiles.map(profile => {
+
+            const video =
+            profile.showreelVideo ||
+            (profile.sampleVideos && profile.sampleVideos[0]) ||
+            "";
+
+            return `
+                <div class="editor-card">
+
+                    <div class="video-box">
+                        ${
+                            video
+                            ? `<video muted loop playsinline controls>
+                                  <source src="${video}" type="video/mp4">
+                               </video>`
+                            : `<div style="padding:80px;text-align:center;background:#eee;">
+                                  No sample video uploaded
+                               </div>`
+                        }
+                    </div>
+
+                    <div class="info">
+                        <h2>${profile.name || "Editor"}</h2>
+
+                        <p><b>Specialization:</b> ${profile.specialization || "Video Editing"}</p>
+                        <p><b>Experience:</b> ${profile.experience || "Not added"}</p>
+                        <p><b>Pricing:</b> ₹${profile.pricing || "Not added"}</p>
+                        <p><b>Country:</b> ${profile.country || "Not added"}</p>
+                        <p><b>Languages:</b> ${profile.languages || "Not added"}</p>
+                        <p><b>Bio:</b> ${profile.bio || "No bio added"}</p>
+
+                        <div class="badges">
+                            <span class="badge">💎 Diamonds: ${profile.diamonds || 0}</span>
+                            <span class="badge">⭐ Reputation: ${profile.reputation || 0}</span>
+                        </div>
+
+                        <a href="editor-profile-view.html?id=${profile._id}" class="btn">
+                            View Profile
+                        </a>
+
+                        <a href="hire-requests.html?id=${profile._id}" class="btn">
+                            Unlock Contact ₹59
+                        </a>
+                    </div>
+
+                </div>
+            `;
+        }).join("");
+
+        observeVideos();
+
+    }catch(error){
+        editorsList.innerHTML = "Failed to load editors.";
+    }
+}
+
+function observeVideos(){
+    const videos = document.querySelectorAll("video");
+
+    const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+            if(entry.isIntersecting){
+                entry.target.play().catch(()=>{});
+            }else{
+                entry.target.pause();
+            }
+        });
+    }, {
+        threshold:0.5
+    });
+
+    videos.forEach(video=>{
+        observer.observe(video);
+    });
+}
+
+loadEditors();
+</script>
 
 </body>
 </html>
