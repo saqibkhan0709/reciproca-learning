@@ -1,23 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-    createProfile,
-    getAllEditors,
-    getProfileByUsername,
-    updateProfile,
-    deleteProfile
-} = require("./profileController");
+const profileController = require("./profileController");
 
-router.post("/create", createProfile);
+router.post("/create", profileController.createProfile);
 
-router.get("/editors", getAllEditors);
-router.get("/all", getAllEditors);
+router.get("/editors", profileController.getAllEditors);
 
-router.get("/:username", getProfileByUsername);
+router.get("/all", profileController.getAllEditors);
 
-router.put("/update/:id", updateProfile);
+router.get("/:username", profileController.getProfileByUsername);
 
-router.delete("/delete/:id", deleteProfile);
+router.put("/update/:id", profileController.updateProfile);
+
+router.delete("/delete/:id", profileController.deleteProfile);
 
 module.exports = router;
