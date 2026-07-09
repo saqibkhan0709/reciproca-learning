@@ -1,22 +1,63 @@
 const mongoose = require("mongoose");
 
 const editorProfileSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: false
+    },
+
+    fullName: String,
     name: String,
     username: String,
     bio: String,
-    skills: String,
-    experience: String,
-    pricing: String,
+
+    skills: {
+        type: [String],
+        default: []
+    },
+
+    experience: {
+        type: Number,
+        default: 0
+    },
+
+    pricing: {
+        type: Number,
+        default: 0
+    },
+
     country: String,
-    languages: String,
+
+    languages: {
+        type: [String],
+        default: []
+    },
+
     sampleTitle: String,
     sampleDescription: String,
     sampleVideo: String,
-    email: String,
+
     phone: String,
     whatsapp: String,
-    diamonds: { type: Number, default: 0 },
-    reputation: { type: Number, default: 0 }
-}, { timestamps: true });
+    email: String,
+
+    reputationPoints: {
+        type: Number,
+        default: 0
+    },
+
+    diamondLevel: {
+        type: String,
+        default: "Bronze"
+    },
+
+    diamondCount: {
+        type: Number,
+        default: 0
+    }
+}, {
+    timestamps: true
+});
 
 module.exports = mongoose.model("EditorProfile", editorProfileSchema);
