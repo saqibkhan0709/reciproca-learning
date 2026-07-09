@@ -18,14 +18,18 @@ const storage = multer.diskStorage({
     },
 
     filename: function (req, file, cb) {
+        const safeFileName = file.originalname.replace(/\s+/g, "-");
+
         cb(
             null,
-            Date.now() + "-" + file.originalname.replace(/\s+/g, "-")
+            Date.now() + "-" + Math.round(Math.random() * 1e9) + "-" + safeFileName
         );
     }
 });
 
-const upload = multer({ storage });
+const upload = multer({
+    storage: storage
+});
 
 router.post(
     "/sample-work/:profileId",
@@ -46,6 +50,10 @@ router.post(
                     success: false,
                     message: "Profile Not Found"
                 });
+            }
+
+            if (!Array.isArray(profile.sampleWorks)) {
+                profile.sampleWorks = [];
             }
 
             profile.sampleWorks.push({
