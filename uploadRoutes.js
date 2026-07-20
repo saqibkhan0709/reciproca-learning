@@ -40,7 +40,7 @@ const storage = multer.diskStorage({
     }
 });
 
-const photoUpload = multer({
+const profilePhotoUpload = multer({
     storage,
 
     limits: {
@@ -66,7 +66,7 @@ const photoUpload = multer({
     }
 });
 
-const videoUpload = multer({
+const sampleVideoUpload = multer({
     storage,
 
     limits: {
@@ -92,12 +92,21 @@ const videoUpload = multer({
     }
 });
 
-// PROFILE PHOTO UPLOAD
+/*
+    PROFILE PHOTO UPLOAD
+
+    URL:
+    POST /api/upload/profile-photo/:profileId
+
+    FormData field:
+    photo
+*/
+
 router.post(
     "/profile-photo/:profileId",
 
     function (req, res, next) {
-        photoUpload.single("photo")(
+        profilePhotoUpload.single("photo")(
             req,
             res,
             function (error) {
@@ -170,12 +179,23 @@ router.post(
     }
 );
 
-// SAMPLE VIDEO UPLOAD
+/*
+    SAMPLE WORK UPLOAD
+
+    URL:
+    POST /api/upload/sample-work/:profileId
+
+    FormData fields:
+    video
+    title
+    category
+*/
+
 router.post(
     "/sample-work/:profileId",
 
     function (req, res, next) {
-        videoUpload.single("video")(
+        sampleVideoUpload.single("video")(
             req,
             res,
             function (error) {
