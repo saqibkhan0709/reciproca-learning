@@ -1,40 +1,678 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-<title>Hire Request</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Hire Request - RECIPROCA EdiNet
+    </title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f4f4f4;
+            color: #000;
+            padding: 24px 15px;
+        }
+
+        .page-container {
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .top-card {
+            background: #fff;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
+
+        .brand {
+            text-align: center;
+        }
+
+        .brand-main {
+            font-size: 34px;
+            font-weight: 800;
+            color: #000;
+        }
+
+        .brand-sub {
+            color: #f4c400;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        .navigation {
+            margin-top: 22px;
+            text-align: center;
+        }
+
+        .navigation a {
+            display: inline-block;
+            margin: 6px 9px;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .navigation a:hover {
+            color: #d9ad00;
+        }
+
+        .main-card {
+            background: #fff;
+            border-radius: 25px;
+            padding: 38px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.09);
+        }
+
+        .page-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: #f4c400;
+        }
+
+        .page-heading p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .editor-summary {
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 28px;
+        }
+
+        .editor-summary h2 {
+            margin-bottom: 8px;
+            font-size: 23px;
+        }
+
+        .editor-summary p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .fee-box {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .fee-card {
+            background: #fff8d8;
+            border: 1px solid #f4c400;
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .fee-card strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 7px;
+        }
+
+        .fee-card p {
+            color: #555;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 11px;
+            font-size: 15px;
+            outline: none;
+            background: #fff;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #f4c400;
+            box-shadow: 0 0 0 3px rgba(244, 196, 0, 0.15);
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 20px;
+            background: #fafafa;
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .checkbox-row input {
+            width: auto;
+            margin-top: 3px;
+        }
+
+        .checkbox-row label {
+            margin: 0;
+            font-weight: normal;
+            line-height: 1.5;
+            color: #444;
+        }
+
+        button {
+            width: 100%;
+            padding: 17px;
+            margin-top: 24px;
+            border: none;
+            border-radius: 12px;
+            background: #f4c400;
+            color: #000;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            line-height: 1.5;
+        }
+
+        .footer-note {
+            margin-top: 24px;
+            text-align: center;
+            color: #777;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 650px) {
+            .main-card {
+                padding: 26px 18px;
+            }
+
+            .page-heading h1 {
+                font-size: 30px;
+            }
+
+            .brand-main {
+                font-size: 28px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-<div class="logo-main">RECIPROCA</div>
-<div class="logo-sub">EdiNet</div>
-</header>
+<div class="page-container">
 
-<nav>
-<a href="index.html">Home</a>
-<a href="find-editors.html">Find Editors</a>
-</nav>
+    <div class="top-card">
 
-<div class="container">
+        <div class="brand">
+            <div class="brand-main">
+                RECIPROCA
+            </div>
 
-<h2>Send Hire Request</h2>
+            <div class="brand-sub">
+                EdiNet
+            </div>
+        </div>
 
-<div class="card">
+        <div class="navigation">
+            <a href="index.html">Home</a>
+            <a href="find-editors.html">Browse Editors</a>
+        </div>
 
-<label>Project Title</label><br>
-<input type="text"><br><br>
+    </div>
 
-<label>Description</label><br>
-<textarea rows="5"></textarea><br><br>
+    <div class="main-card">
 
-<button>Send Request</button>
+        <div class="page-heading">
+
+            <h1>
+                Send
+                <span class="highlight">
+                    Hire Request
+                </span>
+            </h1>
+
+            <p>
+                Share your project requirements clearly so the
+                editor can understand the work before accepting.
+            </p>
+
+        </div>
+
+        <div class="editor-summary">
+
+            <h2 id="editorName">
+                Selected Editor
+            </h2>
+
+            <p id="editorUsername">
+                Loading editor details...
+            </p>
+
+        </div>
+
+        <div class="fee-box">
+
+            <div class="fee-card">
+
+                <strong>
+                    Unlock Contact Fee: ₹49
+                </strong>
+
+                <p>
+                    Pay ₹49 to reveal the selected editor’s
+                    contact details after confirmation.
+                </p>
+
+            </div>
+
+            <div class="fee-card">
+
+                <strong>
+                    Lead Fee: ₹59
+                </strong>
+
+                <p>
+                    The ₹59 lead fee applies separately under
+                    RECIPROCA’s lead system and is not the same
+                    as the contact-unlock fee.
+                </p>
+
+            </div>
+
+        </div>
+
+        <form id="hireRequestForm">
+
+            <label for="projectTitle">
+                Project Title
+            </label>
+
+            <input
+                type="text"
+                id="projectTitle"
+                placeholder="Example: YouTube video editing"
+                required
+            >
+
+            <label for="projectDescription">
+                Project Description
+            </label>
+
+            <textarea
+                id="projectDescription"
+                placeholder="Explain the video length, style, deadline and other requirements"
+                required
+            ></textarea>
+
+            <label for="budget">
+                Approximate Project Budget
+            </label>
+
+            <input
+                type="number"
+                id="budget"
+                placeholder="Enter budget in ₹"
+                min="0"
+            >
+
+            <label for="deadline">
+                Expected Deadline
+            </label>
+
+            <input
+                type="date"
+                id="deadline"
+            >
+
+            <label for="contactMethod">
+                Preferred Contact Method
+            </label>
+
+            <select id="contactMethod">
+                <option value="whatsapp">
+                    WhatsApp
+                </option>
+
+                <option value="email">
+                    Email
+                </option>
+
+                <option value="phone">
+                    Phone Call
+                </option>
+            </select>
+
+            <div class="checkbox-row">
+
+                <input
+                    type="checkbox"
+                    id="agreement"
+                    required
+                >
+
+                <label for="agreement">
+                    I understand that RECIPROCA connects
+                    clients and independent editors. Project
+                    files and work arrangements are handled
+                    directly between both parties after contact
+                    is unlocked.
+                </label>
+
+            </div>
+
+            <button
+                type="submit"
+                id="submitButton"
+            >
+                Continue to Unlock Contact ₹49
+            </button>
+
+        </form>
+
+        <div id="result"></div>
+
+        <div class="footer-note">
+            RECIPROCA EdiNet does not take commission from the
+            editor’s earnings.
+        </div>
+
+    </div>
 
 </div>
 
-</div>
+<script>
+    const API_BASE_URL =
+        window.location.origin;
+
+    const queryParameters =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const editorId =
+        queryParameters.get("id");
+
+    const hireRequestForm =
+        document.getElementById(
+            "hireRequestForm"
+        );
+
+    const submitButton =
+        document.getElementById(
+            "submitButton"
+        );
+
+    const resultBox =
+        document.getElementById("result");
+
+    const editorName =
+        document.getElementById(
+            "editorName"
+        );
+
+    const editorUsername =
+        document.getElementById(
+            "editorUsername"
+        );
+
+    let selectedEditor = null;
+
+    function escapeHtml(value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    async function loadSelectedEditor() {
+        if (!editorId) {
+            editorName.innerText =
+                "Editor Not Selected";
+
+            editorUsername.innerText =
+                "Return to Browse Editors and select an editor.";
+
+            submitButton.disabled = true;
+
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                API_BASE_URL +
+                "/api/profile/all",
+                {
+                    cache: "no-store",
+                    headers: {
+                        Accept:
+                            "application/json"
+                    }
+                }
+            );
+
+            const data =
+                await response.json();
+
+            const editors =
+                Array.isArray(data.editors)
+                    ? data.editors
+                    : Array.isArray(data.profiles)
+                        ? data.profiles
+                        : [];
+
+            selectedEditor =
+                editors.find(function (editor) {
+                    return editor._id === editorId;
+                });
+
+            if (!selectedEditor) {
+                throw new Error(
+                    "Selected editor was not found."
+                );
+            }
+
+            editorName.innerText =
+                selectedEditor.fullName ||
+                selectedEditor.name ||
+                "RECIPROCA Editor";
+
+            editorUsername.innerText =
+                selectedEditor.username
+                    ? "@" +
+                      selectedEditor.username
+                    : "Editor profile";
+
+        } catch (error) {
+            console.error(error);
+
+            editorName.innerText =
+                "Unable to Load Editor";
+
+            editorUsername.innerText =
+                error.message;
+
+            submitButton.disabled = true;
+        }
+    }
+
+    hireRequestForm.addEventListener(
+        "submit",
+        async function (event) {
+            event.preventDefault();
+
+            if (!editorId || !selectedEditor) {
+                resultBox.style.color =
+                    "red";
+
+                resultBox.innerText =
+                    "Please select an editor first.";
+
+                return;
+            }
+
+            const projectTitle =
+                document
+                    .getElementById(
+                        "projectTitle"
+                    )
+                    .value
+                    .trim();
+
+            const projectDescription =
+                document
+                    .getElementById(
+                        "projectDescription"
+                    )
+                    .value
+                    .trim();
+
+            const budget =
+                Number(
+                    document
+                        .getElementById(
+                            "budget"
+                        )
+                        .value
+                ) || 0;
+
+            const deadline =
+                document
+                    .getElementById(
+                        "deadline"
+                    )
+                    .value;
+
+            const contactMethod =
+                document
+                    .getElementById(
+                        "contactMethod"
+                    )
+                    .value;
+
+            submitButton.disabled = true;
+
+            submitButton.innerText =
+                "Saving Request...";
+
+            resultBox.style.color = "#000";
+
+            resultBox.innerText =
+                "Please wait while your request is being prepared.";
+
+            try {
+                const requestData = {
+                    editorId,
+                    projectTitle,
+                    projectDescription,
+                    budget,
+                    deadline,
+                    contactMethod,
+                    unlockFee: 49,
+                    leadFee: 59
+                };
+
+                localStorage.setItem(
+                    "pendingHireRequest",
+                    JSON.stringify(requestData)
+                );
+
+                localStorage.setItem(
+                    "selectedEditorId",
+                    editorId
+                );
+
+                resultBox.style.color =
+                    "green";
+
+                resultBox.innerText =
+                    "Hire request prepared successfully. Redirecting to contact unlock...";
+
+                setTimeout(function () {
+                    window.location.href =
+                        "unlock-contact.html?id=" +
+                        encodeURIComponent(
+                            editorId
+                        );
+                }, 1200);
+
+            } catch (error) {
+                console.error(error);
+
+                resultBox.style.color =
+                    "red";
+
+                resultBox.innerText =
+                    error.message ||
+                    "Unable to prepare hire request.";
+
+                submitButton.disabled =
+                    false;
+
+                submitButton.innerText =
+                    "Continue to Unlock Contact ₹49";
+            }
+        }
+    );
+
+    loadSelectedEditor();
+</script>
 
 </body>
 </html>
