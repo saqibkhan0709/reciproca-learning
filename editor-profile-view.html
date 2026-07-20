@@ -1,107 +1,534 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>RECIPROCA Editor Profile</title>
-  <style>
-    body { font-family: Arial; background:#f4f4f4; padding:40px; }
-    .profile { background:white; padding:30px; border-radius:20px; max-width:900px; margin:auto; box-shadow:0 8px 25px #ddd; }
-    h1 { color:black; }
-    h2 { color:#f4c400; }
-    .badge { background:#f4c400; padding:12px 22px; border-radius:25px; display:inline-block; margin:10px; font-weight:bold; }
-    .sample-card { border:1px solid #ddd; border-radius:15px; padding:20px; margin-top:20px; }
-    video { width:100%; border-radius:12px; background:black; }
-    .unlock-btn { width:100%; padding:18px; background:#f4c400; color:black; border:none; border-radius:12px; font-size:20px; font-weight:bold; margin-top:30px; cursor:pointer; }
-  </style>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        RECIPROCA Editor Profile
+    </title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 25px 15px;
+            background: #f4f4f4;
+            color: #000;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: auto;
+            background: #fff;
+            padding: 38px;
+            border-radius: 25px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.09);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            margin-bottom: 28px;
+        }
+
+        .profile-photo {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #f4c400;
+            background: #eee;
+        }
+
+        .photo-placeholder {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 5px solid #f4c400;
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 52px;
+            flex-shrink: 0;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 40px;
+        }
+
+        .username {
+            margin: 0;
+            color: #777;
+            font-size: 18px;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(230px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .detail-card {
+            padding: 17px;
+            background: #fafafa;
+            border-radius: 14px;
+        }
+
+        .detail-card strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .bio {
+            margin-top: 25px;
+            line-height: 1.7;
+        }
+
+        .badges {
+            margin-top: 25px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #f4c400;
+            padding: 11px 17px;
+            margin: 5px 8px 5px 0;
+            border-radius: 24px;
+            font-weight: bold;
+        }
+
+        .sample-section {
+            margin-top: 38px;
+            border-top: 1px solid #eee;
+            padding-top: 28px;
+        }
+
+        .sample-section h2 {
+            color: #e0b300;
+            font-size: 30px;
+        }
+
+        .sample-card {
+            margin-top: 22px;
+            padding: 18px;
+            background: #fafafa;
+            border-radius: 18px;
+        }
+
+        .sample-card h3 {
+            margin: 0 0 7px;
+        }
+
+        .sample-card p {
+            margin: 0;
+            color: #666;
+        }
+
+        video {
+            width: 100%;
+            max-height: 550px;
+            margin-top: 15px;
+            border-radius: 14px;
+            background: #000;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            margin-top: 35px;
+            padding: 17px;
+            background: #f4c400;
+            color: #000;
+            border-radius: 13px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .status {
+            text-align: center;
+            padding: 40px 15px;
+            font-weight: bold;
+        }
+
+        @media(max-width: 650px) {
+            .container {
+                padding: 25px 18px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-photo,
+            .photo-placeholder {
+                width: 115px;
+                height: 115px;
+            }
+
+            h1 {
+                font-size: 31px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="profile" id="profileBox">
-  Loading profile...
+<div
+    class="container"
+    id="profileContainer"
+>
+    <div class="status">
+        Loading editor profile...
+    </div>
 </div>
 
 <script>
-const API_BASE = "https://reciproca-learning.onrender.com";
+    const profileContainer =
+        document.getElementById(
+            "profileContainer"
+        );
 
-const params = new URLSearchParams(window.location.search);
+    const queryParameters =
+        new URLSearchParams(
+            window.location.search
+        );
 
-const username =
-  params.get("username") ||
-  localStorage.getItem("username") ||
-  "indain-edits";
+    const username =
+        queryParameters.get("username") ||
+        localStorage.getItem("username");
 
-async function loadProfile() {
-  try {
-    const res = await fetch(`${API_BASE}/api/profile/${username}`);
-    const data = await res.json();
-
-    const profile = data.profile || data.editor || data;
-
-    if (!profile || profile.success === false) {
-      document.getElementById("profileBox").innerHTML =
-        "<h2>Profile not found</h2><p>Please create profile first.</p>";
-      return;
+    function escapeHtml(value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
     }
 
-    let samples = "";
+    function createMediaUrl(filePath) {
+        if (!filePath) {
+            return "";
+        }
 
-    if (profile.sampleWorks && profile.sampleWorks.length > 0) {
-      profile.sampleWorks.forEach(work => {
-        const videoPath =
-          work.videoUrl ||
-          work.video ||
-          work.fileUrl ||
-          work.url ||
-          "";
+        if (
+            filePath.startsWith("http://") ||
+            filePath.startsWith("https://")
+        ) {
+            return filePath;
+        }
 
-        samples += `
-          <div class="sample-card">
-            <h3>${work.title || "Sample Work"}</h3>
-            <p>${work.category || work.description || ""}</p>
-            <video controls>
-              <source src="${API_BASE}${videoPath}" type="video/mp4">
-            </video>
-          </div>
-        `;
-      });
-    } else {
-      samples = "<p>No sample works uploaded yet.</p>";
+        if (!filePath.startsWith("/")) {
+            filePath = "/" + filePath;
+        }
+
+        return window.location.origin + filePath;
     }
 
-    document.getElementById("profileBox").innerHTML = `
-      <h1>${profile.fullName || profile.name || "RECIPROCA Editor"}</h1>
+    function getList(value) {
+        if (Array.isArray(value)) {
+            return value.filter(Boolean);
+        }
 
-      <p><b>Username:</b> ${profile.username || username}</p>
-      <p><b>Bio:</b> ${profile.bio || "Not added"}</p>
-      <p><b>Experience:</b> ${profile.experience || 0} years</p>
-      <p><b>Pricing:</b> ₹${profile.pricing || 0}</p>
-      <p><b>Country:</b> ${profile.country || "Not added"}</p>
-      <p><b>Languages:</b> ${profile.languages || "Not added"}</p>
-      <p><b>Skills:</b> ${profile.skills || "Not added"}</p>
+        if (typeof value === "string") {
+            return value
+                .split(",")
+                .map(function(item) {
+                    return item.trim();
+                })
+                .filter(Boolean);
+        }
 
-      <div class="badge">💎 Diamonds: ${profile.diamondCount || 0}</div>
-      <div class="badge">⭐ Reputation: ${profile.reputationPoints || 0}</div>
+        return [];
+    }
 
-      <h2>Sample Works</h2>
-      ${samples}
+    function getSampleWorks(profile) {
+        if (
+            Array.isArray(profile.sampleWorks)
+        ) {
+            return profile.sampleWorks;
+        }
 
-      <button class="unlock-btn" onclick="window.open('https://rzp.io/rzp/YJmlfvYz', '_blank')">
-    Unlock Contact ₹49
-</button>
-    `;
+        return [];
+    }
 
-  } catch (err) {
-    console.error(err);
-    document.getElementById("profileBox").innerHTML =
-      "<h2>Something went wrong</h2><p>Please try again.</p>";
-  }
-}
+    async function loadProfile() {
+        if (!username) {
+            profileContainer.innerHTML = `
+                <div class="status">
+                    Username is missing. Open this page
+                    from Browse Editors or upload page.
+                </div>
+            `;
 
-function unlockContact() {
-  window.open("https://rzp.io/rzp/YJmlfvYz", "_blank");
-}
+            return;
+        }
 
-loadProfile();
+        try {
+            const response = await fetch(
+                "/api/profile/" +
+                encodeURIComponent(username),
+                {
+                    cache: "no-store",
+                    headers: {
+                        Accept: "application/json"
+                    }
+                }
+            );
+
+            const data =
+                await response.json();
+
+            if (!response.ok || !data.profile) {
+                throw new Error(
+                    data.message ||
+                    "Profile not found"
+                );
+            }
+
+            const profile =
+                data.profile;
+
+            const fullName =
+                profile.fullName ||
+                profile.name ||
+                "RECIPROCA Editor";
+
+            const skills =
+                getList(profile.skills);
+
+            const languages =
+                getList(profile.languages);
+
+            const photoUrl =
+                createMediaUrl(
+                    profile.profilePhoto
+                );
+
+            const sampleWorks =
+                getSampleWorks(profile);
+
+            const samplesHtml =
+                sampleWorks.length > 0
+                    ? sampleWorks
+                        .map(function(sample) {
+                            const videoUrl =
+                                createMediaUrl(
+                                    sample.videoUrl
+                                );
+
+                            return `
+                                <div class="sample-card">
+
+                                    <h3>
+                                        ${escapeHtml(
+                                            sample.title ||
+                                            "Sample Work"
+                                        )}
+                                    </h3>
+
+                                    <p>
+                                        ${escapeHtml(
+                                            sample.category ||
+                                            "General"
+                                        )}
+                                    </p>
+
+                                    <video
+                                        controls
+                                        muted
+                                        playsinline
+                                        preload="metadata"
+                                    >
+                                        <source
+                                            src="${escapeHtml(
+                                                videoUrl
+                                            )}"
+                                        >
+
+                                        Your browser does not
+                                        support video playback.
+                                    </video>
+
+                                </div>
+                            `;
+                        })
+                        .join("")
+                    : `
+                        <p>
+                            No sample works uploaded yet.
+                        </p>
+                    `;
+
+            profileContainer.innerHTML = `
+
+                <div class="profile-header">
+
+                    ${
+                        photoUrl
+                            ? `
+                                <img
+                                    src="${escapeHtml(photoUrl)}"
+                                    class="profile-photo"
+                                    alt="${escapeHtml(fullName)}"
+                                >
+                            `
+                            : `
+                                <div class="photo-placeholder">
+                                    🎬
+                                </div>
+                            `
+                    }
+
+                    <div>
+                        <h1>
+                            ${escapeHtml(fullName)}
+                        </h1>
+
+                        <p class="username">
+                            @${escapeHtml(
+                                profile.username ||
+                                ""
+                            )}
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="bio">
+                    <strong>Bio:</strong>
+                    ${escapeHtml(
+                        profile.bio ||
+                        "No bio added."
+                    )}
+                </div>
+
+                <div class="details">
+
+                    <div class="detail-card">
+                        <strong>Skills</strong>
+                        ${escapeHtml(
+                            skills.length
+                                ? skills.join(", ")
+                                : "Not added"
+                        )}
+                    </div>
+
+                    <div class="detail-card">
+                        <strong>Experience</strong>
+                        ${Number(
+                            profile.experience || 0
+                        )} years
+                    </div>
+
+                    <div class="detail-card">
+                        <strong>Starting Price</strong>
+                        ₹${Number(
+                            profile.pricing || 0
+                        )}
+                    </div>
+
+                    <div class="detail-card">
+                        <strong>Country</strong>
+                        ${escapeHtml(
+                            profile.country ||
+                            "Not added"
+                        )}
+                    </div>
+
+                    <div class="detail-card">
+                        <strong>Languages</strong>
+                        ${escapeHtml(
+                            languages.length
+                                ? languages.join(", ")
+                                : "Not added"
+                        )}
+                    </div>
+
+                    <div class="detail-card">
+                        <strong>Diamond Level</strong>
+                        ${escapeHtml(
+                            profile.diamondLevel ||
+                            "Bronze"
+                        )}
+                    </div>
+
+                </div>
+
+                <div class="badges">
+
+                    <span class="badge">
+                        💎 Diamonds:
+                        ${Number(
+                            profile.diamondCount ||
+                            profile.diamonds ||
+                            0
+                        )}
+                    </span>
+
+                    <span class="badge">
+                        ⭐ Reputation:
+                        ${Number(
+                            profile.reputationPoints ||
+                            profile.reputation ||
+                            0
+                        )}
+                    </span>
+
+                </div>
+
+                <section class="sample-section">
+
+                    <h2>Sample Works</h2>
+
+                    ${samplesHtml}
+
+                </section>
+
+                <a
+                    href="hire-requests.html?id=${encodeURIComponent(
+                        profile._id
+                    )}"
+                    class="button"
+                >
+                    Unlock Contact ₹59
+                </a>
+            `;
+
+        } catch(error) {
+            console.error(error);
+
+            profileContainer.innerHTML = `
+                <div class="status">
+                    ${escapeHtml(
+                        error.message ||
+                        "Unable to load profile."
+                    )}
+                </div>
+            `;
+        }
+    }
+
+    loadProfile();
 </script>
 
 </body>
