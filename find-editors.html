@@ -1,228 +1,805 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Browse Editors - RECIPROCA EdiNet</title>
+    <meta charset="UTF-8">
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-body{
-    background:#f4f4f4;
-    padding:20px;
-}
+    <title>
+        Browse Editors - RECIPROCA EdiNet
+    </title>
 
-.container{
-    max-width:1100px;
-    margin:auto;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-.header{
-    background:white;
-    padding:35px;
-    border-radius:25px;
-    text-align:center;
-    box-shadow:0 8px 25px rgba(0,0,0,0.08);
-    margin-bottom:30px;
-}
+        body {
+            margin: 0;
+            padding: 25px 15px;
+            background: #f4f4f4;
+            color: #000;
+        }
 
-.header h1{
-    font-size:42px;
-}
+        .page-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: auto;
+        }
 
-.highlight{
-    color:#f4c400;
-}
+        .header {
+            background: #fff;
+            text-align: center;
+            padding: 35px 20px;
+            border-radius: 24px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
 
-.editor-card{
-    background:white;
-    border-radius:25px;
-    margin-bottom:30px;
-    overflow:hidden;
-    box-shadow:0 8px 25px rgba(0,0,0,0.08);
-}
+        .header h1 {
+            margin: 0 0 10px;
+            font-size: 42px;
+        }
 
-.video-box video{
-    width:100%;
-    height:420px;
-    object-fit:cover;
-    background:#000;
-}
+        .highlight {
+            color: #f4c400;
+        }
 
-.info{
-    padding:30px;
-}
+        .header p {
+            margin: 0;
+            color: #666;
+            line-height: 1.5;
+        }
 
-.info h2{
-    font-size:28px;
-    margin-bottom:8px;
-}
+        .navigation {
+            margin-top: 22px;
+        }
 
-.info p{
-    color:#555;
-    margin:8px 0;
-    line-height:1.5;
-}
+        .navigation a {
+            display: inline-block;
+            margin: 5px 8px;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-.badges{
-    margin:15px 0;
-}
+        #editorsList {
+            width: 100%;
+        }
 
-.badge{
-    display:inline-block;
-    background:#f4c400;
-    padding:8px 14px;
-    border-radius:20px;
-    margin:5px;
-    font-weight:bold;
-}
+        .status-message {
+            background: #fff;
+            text-align: center;
+            padding: 45px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #555;
+        }
 
-.btn{
-    display:inline-block;
-    background:#f4c400;
-    color:black;
-    text-decoration:none;
-    padding:13px 22px;
-    border-radius:12px;
-    font-weight:bold;
-    margin-right:10px;
-    margin-top:15px;
-}
+        .editor-card {
+            background: #fff;
+            border-radius: 25px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.09);
+        }
 
-.loading{
-    text-align:center;
-    font-size:20px;
-    color:#555;
-}
+        .media-section {
+            width: 100%;
+            min-height: 300px;
+            background: #ececec;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-@media(max-width:768px){
-    .video-box video{
-        height:240px;
-    }
+        .sample-video {
+            display: block;
+            width: 100%;
+            height: 500px;
+            object-fit: contain;
+            background: #000;
+        }
 
-    .header h1{
-        font-size:32px;
-    }
-}
-</style>
+        .no-video {
+            width: 100%;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .no-video-icon {
+            font-size: 55px;
+            margin-bottom: 12px;
+        }
+
+        .profile-information {
+            padding: 32px 38px 38px;
+        }
+
+        .editor-heading {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .profile-photo {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #f4c400;
+            background: #eee;
+            flex-shrink: 0;
+        }
+
+        .photo-placeholder {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            border: 4px solid #f4c400;
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            flex-shrink: 0;
+        }
+
+        .editor-title h2 {
+            margin: 0 0 5px;
+            font-size: 30px;
+        }
+
+        .username {
+            color: #777;
+            margin: 0;
+        }
+
+        .detail {
+            color: #444;
+            font-size: 17px;
+            line-height: 1.6;
+            margin: 9px 0;
+        }
+
+        .detail strong {
+            color: #222;
+        }
+
+        .skill-section {
+            margin-top: 18px;
+        }
+
+        .skill-badge {
+            display: inline-block;
+            background: #fff4bf;
+            border: 1px solid #f4c400;
+            padding: 8px 13px;
+            margin: 5px 5px 5px 0;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .reward-section {
+            margin-top: 20px;
+        }
+
+        .reward-badge {
+            display: inline-block;
+            background: #f4c400;
+            padding: 10px 16px;
+            margin: 5px 8px 5px 0;
+            border-radius: 24px;
+            font-weight: bold;
+        }
+
+        .button-section {
+            margin-top: 26px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 22px;
+            background: #f4c400;
+            color: #000;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .footer {
+            background: #fff;
+            text-align: center;
+            padding: 24px;
+            border-radius: 20px;
+            margin-top: 20px;
+            color: #777;
+        }
+
+        @media (max-width: 700px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .sample-video {
+                height: 300px;
+            }
+
+            .profile-information {
+                padding: 25px 20px 30px;
+            }
+
+            .editor-heading {
+                align-items: flex-start;
+            }
+
+            .profile-photo,
+            .photo-placeholder {
+                width: 70px;
+                height: 70px;
+            }
+
+            .editor-title h2 {
+                font-size: 24px;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="page-container">
 
     <div class="header">
-        <h1>Browse <span class="highlight">Editors</span></h1>
-        <p>Watch sample work while scrolling and choose the right editor.</p>
+
+        <h1>
+            Browse
+            <span class="highlight">
+                Editors
+            </span>
+        </h1>
+
+        <p>
+            Watch sample work while scrolling and choose
+            the right editor for your project.
+        </p>
+
+        <div class="navigation">
+            <a href="index.html">Home</a>
+            <a href="new-register.html">Editor Registration</a>
+            <a href="login.html">Editor Login</a>
+        </div>
+
     </div>
 
-    <div id="editorsList" class="loading">
-        Loading editors...
+    <div id="editorsList">
+
+        <div class="status-message">
+            Loading editor profiles...
+        </div>
+
+    </div>
+
+    <div class="footer">
+        RECIPROCA EdiNet • Connecting Clients with Quality Editors
     </div>
 
 </div>
 
 <script>
-const API_URL = "https://reciproca-learning.onrender.com/api/profile/all";
+    const editorsList =
+        document.getElementById("editorsList");
 
-async function loadEditors(){
-    const editorsList = document.getElementById("editorsList");
+    function escapeHtml(value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
 
-    try{
-        const response = await fetch(API_URL);
-        const data = await response.json();
-
-        if(!data.success || data.profiles.length === 0){
-            editorsList.innerHTML = "No editors found yet.";
-            return;
+    function createMediaUrl(filePath) {
+        if (!filePath) {
+            return "";
         }
 
-        editorsList.className = "";
+        if (
+            filePath.startsWith("http://") ||
+            filePath.startsWith("https://")
+        ) {
+            return filePath;
+        }
 
-        editorsList.innerHTML = data.profiles.map(profile => {
+        if (!filePath.startsWith("/")) {
+            filePath = "/" + filePath;
+        }
 
-            const video =
-            profile.showreelVideo ||
-            (profile.sampleVideos && profile.sampleVideos[0]) ||
+        return window.location.origin + filePath;
+    }
+
+    function getArray(value) {
+        if (Array.isArray(value)) {
+            return value.filter(Boolean);
+        }
+
+        if (typeof value === "string") {
+            return value
+                .split(",")
+                .map(function (item) {
+                    return item.trim();
+                })
+                .filter(Boolean);
+        }
+
+        return [];
+    }
+
+    function getSampleWorks(profile) {
+        if (
+            Array.isArray(profile.sampleWorks) &&
+            profile.sampleWorks.length > 0
+        ) {
+            return profile.sampleWorks;
+        }
+
+        if (
+            Array.isArray(profile.sampleVideos) &&
+            profile.sampleVideos.length > 0
+        ) {
+            return profile.sampleVideos.map(
+                function (videoUrl, index) {
+                    return {
+                        title:
+                            "Sample Work " +
+                            (index + 1),
+
+                        category:
+                            "Video Editing",
+
+                        videoUrl:
+                            videoUrl
+                    };
+                }
+            );
+        }
+
+        if (profile.sampleVideo) {
+            return [
+                {
+                    title:
+                        profile.sampleTitle ||
+                        "Sample Work",
+
+                    category:
+                        "Video Editing",
+
+                    videoUrl:
+                        profile.sampleVideo
+                }
+            ];
+        }
+
+        if (profile.showreelVideo) {
+            return [
+                {
+                    title: "Showreel",
+                    category: "Video Editing",
+                    videoUrl:
+                        profile.showreelVideo
+                }
+            ];
+        }
+
+        return [];
+    }
+
+    function createEditorCard(profile) {
+        const fullName =
+            profile.fullName ||
+            profile.name ||
+            "RECIPROCA Editor";
+
+        const username =
+            profile.username ||
             "";
 
-            return `
-                <div class="editor-card">
+        const skills =
+            getArray(profile.skills);
 
-                    <div class="video-box">
+        const languages =
+            getArray(profile.languages);
+
+        const sampleWorks =
+            getSampleWorks(profile);
+
+        const firstSample =
+            sampleWorks[0];
+
+        const videoUrl =
+            firstSample
+                ? createMediaUrl(
+                    firstSample.videoUrl
+                )
+                : "";
+
+        const photoUrl =
+            createMediaUrl(
+                profile.profilePhoto
+            );
+
+        const skillBadges =
+            skills.length > 0
+                ? skills
+                    .map(function (skill) {
+                        return `
+                            <span class="skill-badge">
+                                ${escapeHtml(skill)}
+                            </span>
+                        `;
+                    })
+                    .join("")
+                : `
+                    <span class="skill-badge">
+                        Video Editing
+                    </span>
+                `;
+
+        const profileLink =
+            "profile.html?username=" +
+            encodeURIComponent(username);
+
+        const unlockLink =
+            "hire-requests.html?id=" +
+            encodeURIComponent(profile._id);
+
+        return `
+            <article class="editor-card">
+
+                <div class="media-section">
+
+                    ${
+                        videoUrl
+                            ? `
+                                <video
+                                    class="sample-video autoplay-video"
+                                    muted
+                                    loop
+                                    playsinline
+                                    controls
+                                    preload="metadata"
+                                >
+                                    <source
+                                        src="${escapeHtml(videoUrl)}"
+                                    >
+
+                                    Your browser does not support
+                                    video playback.
+                                </video>
+                            `
+                            : `
+                                <div class="no-video">
+
+                                    <div class="no-video-icon">
+                                        🎬
+                                    </div>
+
+                                    <strong>
+                                        No sample video uploaded
+                                    </strong>
+
+                                    <p>
+                                        This editor has not added
+                                        sample work yet.
+                                    </p>
+
+                                </div>
+                            `
+                    }
+
+                </div>
+
+                <div class="profile-information">
+
+                    <div class="editor-heading">
+
                         ${
-                            video
-                            ? `<video muted loop playsinline controls>
-                                  <source src="${video}" type="video/mp4">
-                               </video>`
-                            : `<div style="padding:80px;text-align:center;background:#eee;">
-                                  No sample video uploaded
-                               </div>`
+                            photoUrl
+                                ? `
+                                    <img
+                                        src="${escapeHtml(photoUrl)}"
+                                        class="profile-photo"
+                                        alt="${escapeHtml(fullName)}"
+                                    >
+                                `
+                                : `
+                                    <div class="photo-placeholder">
+                                        🎬
+                                    </div>
+                                `
                         }
-                    </div>
 
-                    <div class="info">
-                        <h2>${profile.name || "Editor"}</h2>
+                        <div class="editor-title">
 
-                        <p><b>Specialization:</b> ${profile.specialization || "Video Editing"}</p>
-                        <p><b>Experience:</b> ${profile.experience || "Not added"}</p>
-                        <p><b>Pricing:</b> ₹${profile.pricing || "Not added"}</p>
-                        <p><b>Country:</b> ${profile.country || "Not added"}</p>
-                        <p><b>Languages:</b> ${profile.languages || "Not added"}</p>
-                        <p><b>Bio:</b> ${profile.bio || "No bio added"}</p>
+                            <h2>
+                                ${escapeHtml(fullName)}
+                            </h2>
 
-                        <div class="badges">
-                            <span class="badge">💎 Diamonds: ${profile.diamonds || 0}</span>
-                            <span class="badge">⭐ Reputation: ${profile.reputation || 0}</span>
+                            ${
+                                username
+                                    ? `
+                                        <p class="username">
+                                            @${escapeHtml(username)}
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
                         </div>
 
-                        <a href="editor-profile-view.html?id=${profile._id}" class="btn">
+                    </div>
+
+                    <p class="detail">
+                        <strong>Specialization:</strong>
+                        ${
+                            skills.length
+                                ? escapeHtml(skills[0])
+                                : "Video Editing"
+                        }
+                    </p>
+
+                    <p class="detail">
+                        <strong>Experience:</strong>
+                        ${Number(profile.experience || 0)}
+                        ${
+                            Number(profile.experience || 0) === 1
+                                ? "year"
+                                : "years"
+                        }
+                    </p>
+
+                    <p class="detail">
+                        <strong>Starting Price:</strong>
+                        ₹${Number(profile.pricing || 0)}
+                    </p>
+
+                    <p class="detail">
+                        <strong>Country:</strong>
+                        ${escapeHtml(
+                            profile.country ||
+                            "Not added"
+                        )}
+                    </p>
+
+                    <p class="detail">
+                        <strong>Languages:</strong>
+                        ${escapeHtml(
+                            languages.length
+                                ? languages.join(", ")
+                                : "Not added"
+                        )}
+                    </p>
+
+                    <p class="detail">
+                        <strong>Bio:</strong>
+                        ${escapeHtml(
+                            profile.bio ||
+                            "No bio added."
+                        )}
+                    </p>
+
+                    <div class="skill-section">
+                        ${skillBadges}
+                    </div>
+
+                    <div class="reward-section">
+
+                        <span class="reward-badge">
+                            💎 Diamonds:
+                            ${Number(
+                                profile.diamondCount ||
+                                profile.diamonds ||
+                                0
+                            )}
+                        </span>
+
+                        <span class="reward-badge">
+                            ⭐ Reputation:
+                            ${Number(
+                                profile.reputationPoints ||
+                                profile.reputation ||
+                                0
+                            )}
+                        </span>
+
+                    </div>
+
+                    <div class="button-section">
+
+                        <a
+                            href="${profileLink}"
+                            class="button"
+                        >
                             View Profile
                         </a>
 
-                        <a href="hire-requests.html?id=${profile._id}" class="btn">
+                        <a
+                            href="${unlockLink}"
+                            class="button"
+                        >
                             Unlock Contact ₹59
                         </a>
+
                     </div>
 
                 </div>
-            `;
-        }).join("");
 
-        observeVideos();
-
-    }catch(error){
-        editorsList.innerHTML = "Failed to load editors.";
+            </article>
+        `;
     }
-}
 
-function observeVideos(){
-    const videos = document.querySelectorAll("video");
+    function enableVideoAutoplay() {
+        const videos =
+            document.querySelectorAll(
+                ".autoplay-video"
+            );
 
-    const observer = new IntersectionObserver((entries)=>{
-        entries.forEach(entry=>{
-            if(entry.isIntersecting){
-                entry.target.play().catch(()=>{});
-            }else{
-                entry.target.pause();
-            }
+        if (
+            !("IntersectionObserver" in window)
+        ) {
+            return;
+        }
+
+        const observer =
+            new IntersectionObserver(
+                function (entries) {
+                    entries.forEach(
+                        function (entry) {
+                            const video =
+                                entry.target;
+
+                            if (
+                                entry.isIntersecting &&
+                                entry.intersectionRatio >= 0.55
+                            ) {
+                                document
+                                    .querySelectorAll(
+                                        ".autoplay-video"
+                                    )
+                                    .forEach(
+                                        function (
+                                            otherVideo
+                                        ) {
+                                            if (
+                                                otherVideo !==
+                                                video
+                                            ) {
+                                                otherVideo.pause();
+                                            }
+                                        }
+                                    );
+
+                                video
+                                    .play()
+                                    .catch(
+                                        function () {
+                                            // Browser may block autoplay.
+                                        }
+                                    );
+                            } else {
+                                video.pause();
+                            }
+                        }
+                    );
+                },
+                {
+                    threshold: [
+                        0,
+                        0.25,
+                        0.55,
+                        0.75,
+                        1
+                    ]
+                }
+            );
+
+        videos.forEach(function (video) {
+            observer.observe(video);
         });
-    }, {
-        threshold:0.5
-    });
+    }
 
-    videos.forEach(video=>{
-        observer.observe(video);
-    });
-}
+    async function loadEditors() {
+        try {
+            const response = await fetch(
+                "/api/profile/all",
+                {
+                    method: "GET",
+                    headers: {
+                        Accept:
+                            "application/json"
+                    },
+                    cache: "no-store"
+                }
+            );
 
-loadEditors();
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.message ||
+                    "Unable to load editors"
+                );
+            }
+
+            const editors =
+                Array.isArray(data.editors)
+                    ? data.editors
+                    : Array.isArray(data.profiles)
+                        ? data.profiles
+                        : [];
+
+            if (editors.length === 0) {
+                editorsList.innerHTML = `
+                    <div class="status-message">
+                        No editor profiles are available yet.
+                    </div>
+                `;
+
+                return;
+            }
+
+            editorsList.innerHTML =
+                editors
+                    .map(createEditorCard)
+                    .join("");
+
+            enableVideoAutoplay();
+
+        } catch (error) {
+            console.error(
+                "LOAD EDITORS ERROR:",
+                error
+            );
+
+            editorsList.innerHTML = `
+                <div class="status-message">
+                    Failed to load editor profiles.
+                    Please refresh the page.
+                </div>
+            `;
+        }
+    }
+
+    loadEditors();
 </script>
 
 </body>
