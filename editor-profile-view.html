@@ -32,28 +32,30 @@
             background: #fff;
             padding: 38px;
             border-radius: 25px;
-            box-shadow: 0 8px 28px rgba(0,0,0,0.09);
+            box-shadow:
+                0 8px 28px rgba(0,0,0,0.09);
         }
 
         .profile-header {
             display: flex;
             align-items: center;
-            gap: 22px;
-            margin-bottom: 28px;
+            gap: 24px;
+            margin-bottom: 30px;
         }
 
         .profile-photo {
-            width: 140px;
-            height: 140px;
+            width: 145px;
+            height: 145px;
             border-radius: 50%;
             object-fit: cover;
             border: 5px solid #f4c400;
             background: #eee;
+            flex-shrink: 0;
         }
 
         .photo-placeholder {
-            width: 140px;
-            height: 140px;
+            width: 145px;
+            height: 145px;
             border-radius: 50%;
             border: 5px solid #f4c400;
             background: #eee;
@@ -72,78 +74,76 @@
         .username {
             margin: 0;
             color: #777;
-            font-size: 18px;
+            font-size: 19px;
+        }
+
+        .bio {
+            margin-top: 25px;
+            font-size: 17px;
+            line-height: 1.7;
         }
 
         .details {
             display: grid;
             grid-template-columns:
                 repeat(auto-fit, minmax(230px, 1fr));
-            gap: 15px;
-            margin-top: 25px;
+            gap: 16px;
+            margin-top: 28px;
         }
 
         .detail-card {
-            padding: 17px;
             background: #fafafa;
-            border-radius: 14px;
+            border-radius: 15px;
+            padding: 18px;
+            line-height: 1.5;
         }
 
         .detail-card strong {
             display: block;
-            margin-bottom: 8px;
-        }
-
-        .bio {
-            margin-top: 25px;
-            line-height: 1.7;
+            margin-bottom: 7px;
         }
 
         .badges {
-            margin-top: 25px;
+            margin-top: 28px;
         }
 
         .badge {
             display: inline-block;
             background: #f4c400;
-            padding: 11px 17px;
-            margin: 5px 8px 5px 0;
-            border-radius: 24px;
+            padding: 11px 18px;
+            margin: 5px 9px 5px 0;
+            border-radius: 25px;
             font-weight: bold;
         }
 
         .sample-section {
-            margin-top: 38px;
+            margin-top: 40px;
+            padding-top: 30px;
             border-top: 1px solid #eee;
-            padding-top: 28px;
         }
 
         .sample-section h2 {
             color: #e0b300;
-            font-size: 30px;
+            font-size: 31px;
         }
 
         .sample-card {
             margin-top: 22px;
             padding: 18px;
-            background: #fafafa;
             border-radius: 18px;
+            background: #fafafa;
         }
 
         .sample-card h3 {
             margin: 0 0 7px;
         }
 
-        .sample-card p {
-            margin: 0;
-            color: #666;
-        }
-
         video {
+            display: block;
             width: 100%;
             max-height: 550px;
             margin-top: 15px;
-            border-radius: 14px;
+            border-radius: 15px;
             background: #000;
         }
 
@@ -152,9 +152,9 @@
             width: 100%;
             margin-top: 35px;
             padding: 17px;
+            border-radius: 13px;
             background: #f4c400;
             color: #000;
-            border-radius: 13px;
             text-align: center;
             text-decoration: none;
             font-size: 20px;
@@ -162,8 +162,8 @@
         }
 
         .status {
+            padding: 45px 20px;
             text-align: center;
-            padding: 40px 15px;
             font-weight: bold;
         }
 
@@ -193,8 +193,8 @@
 <body>
 
 <div
-    class="container"
     id="profileContainer"
+    class="container"
 >
     <div class="status">
         Loading editor profile...
@@ -207,13 +207,10 @@
             "profileContainer"
         );
 
-    const queryParameters =
+    const username =
         new URLSearchParams(
             window.location.search
-        );
-
-    const username =
-        queryParameters.get("username") ||
+        ).get("username") ||
         localStorage.getItem("username");
 
     function escapeHtml(value) {
@@ -241,7 +238,8 @@
             filePath = "/" + filePath;
         }
 
-        return window.location.origin + filePath;
+        return window.location.origin +
+            filePath;
     }
 
     function getList(value) {
@@ -252,20 +250,10 @@
         if (typeof value === "string") {
             return value
                 .split(",")
-                .map(function(item) {
+                .map(function (item) {
                     return item.trim();
                 })
                 .filter(Boolean);
-        }
-
-        return [];
-    }
-
-    function getSampleWorks(profile) {
-        if (
-            Array.isArray(profile.sampleWorks)
-        ) {
-            return profile.sampleWorks;
         }
 
         return [];
@@ -275,8 +263,7 @@
         if (!username) {
             profileContainer.innerHTML = `
                 <div class="status">
-                    Username is missing. Open this page
-                    from Browse Editors or upload page.
+                    Username is missing.
                 </div>
             `;
 
@@ -290,7 +277,8 @@
                 {
                     cache: "no-store",
                     headers: {
-                        Accept: "application/json"
+                        Accept:
+                            "application/json"
                     }
                 }
             );
@@ -313,29 +301,26 @@
                 profile.name ||
                 "RECIPROCA Editor";
 
+            const profilePhoto =
+                createMediaUrl(
+                    profile.profilePhoto
+                );
+
             const skills =
                 getList(profile.skills);
 
             const languages =
                 getList(profile.languages);
 
-            const photoUrl =
-                createMediaUrl(
-                    profile.profilePhoto
-                );
-
             const sampleWorks =
-                getSampleWorks(profile);
+                Array.isArray(profile.sampleWorks)
+                    ? profile.sampleWorks
+                    : [];
 
-            const samplesHtml =
-                sampleWorks.length > 0
+            const sampleWorksHtml =
+                sampleWorks.length
                     ? sampleWorks
-                        .map(function(sample) {
-                            const videoUrl =
-                                createMediaUrl(
-                                    sample.videoUrl
-                                );
-
+                        .map(function (sample) {
                             return `
                                 <div class="sample-card">
 
@@ -361,7 +346,9 @@
                                     >
                                         <source
                                             src="${escapeHtml(
-                                                videoUrl
+                                                createMediaUrl(
+                                                    sample.videoUrl
+                                                )
                                             )}"
                                         >
 
@@ -384,12 +371,16 @@
                 <div class="profile-header">
 
                     ${
-                        photoUrl
+                        profilePhoto
                             ? `
                                 <img
-                                    src="${escapeHtml(photoUrl)}"
+                                    src="${escapeHtml(
+                                        profilePhoto
+                                    )}"
                                     class="profile-photo"
-                                    alt="${escapeHtml(fullName)}"
+                                    alt="${escapeHtml(
+                                        fullName
+                                    )}"
                                 >
                             `
                             : `
@@ -479,18 +470,14 @@
                     <span class="badge">
                         💎 Diamonds:
                         ${Number(
-                            profile.diamondCount ||
-                            profile.diamonds ||
-                            0
+                            profile.diamondCount || 0
                         )}
                     </span>
 
                     <span class="badge">
                         ⭐ Reputation:
                         ${Number(
-                            profile.reputationPoints ||
-                            profile.reputation ||
-                            0
+                            profile.reputationPoints || 0
                         )}
                     </span>
 
@@ -500,7 +487,7 @@
 
                     <h2>Sample Works</h2>
 
-                    ${samplesHtml}
+                    ${sampleWorksHtml}
 
                 </section>
 
@@ -514,7 +501,7 @@
                 </a>
             `;
 
-        } catch(error) {
+        } catch (error) {
             console.error(error);
 
             profileContainer.innerHTML = `
