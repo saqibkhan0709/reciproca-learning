@@ -2,69 +2,132 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Upload Sample Work - RECIPROCA</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Upload Sample Work - RECIPROCA EdiNet
+    </title>
 
     <style>
-        body {
+        * {
+            box-sizing: border-box;
             font-family: Arial, sans-serif;
-            background: #f4f4f4;
+        }
+
+        body {
             margin: 0;
-            padding: 30px;
+            padding: 30px 15px;
+            background: #f4f4f4;
+            color: #000;
         }
 
         .container {
-            max-width: 700px;
+            width: 100%;
+            max-width: 750px;
             margin: auto;
-            background: #fafafa;
-            padding: 35px;
+            background: #fff;
+            padding: 38px;
             border-radius: 25px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
         h1 {
-            color: #000;
+            margin: 0;
             text-align: center;
+            font-size: 40px;
         }
 
         .subtitle {
             color: #f4c400;
             text-align: center;
             font-weight: bold;
-            margin-bottom: 25px;
+            margin: 12px 0 30px;
+        }
+
+        label {
+            display: block;
+            margin: 18px 0 7px;
+            font-weight: bold;
         }
 
         input {
             width: 100%;
-            padding: 14px;
-            margin-top: 12px;
+            padding: 15px;
             border: 1px solid #ddd;
-            border-radius: 10px;
-            box-sizing: border-box;
+            border-radius: 11px;
+            font-size: 15px;
         }
 
-        button {
+        button,
+        .button {
+            display: block;
             width: 100%;
             padding: 16px;
-            margin-top: 18px;
+            margin-top: 22px;
             background: #f4c400;
             color: #000;
             border: none;
             border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 17px;
             font-weight: bold;
             cursor: pointer;
         }
 
+        button:hover,
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
         #result {
-            margin-top: 18px;
+            margin-top: 20px;
             text-align: center;
             font-weight: bold;
+            line-height: 1.5;
+        }
+
+        #uploadedSample {
+            display: none;
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 25px;
         }
 
         video {
             width: 100%;
-            margin-top: 20px;
+            max-height: 500px;
+            margin-top: 15px;
             border-radius: 15px;
-            background: black;
+            background: #000;
+        }
+
+        .warning {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 12px;
+            background: #fff4bf;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        @media(max-width: 600px) {
+            .container {
+                padding: 26px 18px;
+            }
+
+            h1 {
+                font-size: 31px;
+            }
         }
     </style>
 </head>
@@ -74,83 +137,312 @@
 <div class="container">
 
     <h1>Upload Sample Work</h1>
-    <div class="subtitle">Let clients watch your work inside RECIPROCA</div>
 
-    <input type="file" id="video" accept="video/*">
+    <div class="subtitle">
+        Let clients watch your editing work inside RECIPROCA
+    </div>
 
-    <input type="text" id="title" placeholder="Sample Work Title">
+    <form id="uploadForm">
 
-    <input type="text" id="category" placeholder="Category">
+        <label for="video">
+            Select Sample Video
+        </label>
 
-    <button type="button" onclick="uploadVideo()">Upload Sample</button>
+        <input
+            type="file"
+            id="video"
+            accept="video/mp4,video/webm,video/quicktime"
+            required
+        >
 
-    <button type="button" onclick="viewProfile()">View Final Profile</button>
+        <label for="title">
+            Sample Work Title
+        </label>
+
+        <input
+            type="text"
+            id="title"
+            placeholder="Example: Cinematic Travel Edit"
+            required
+        >
+
+        <label for="category">
+            Category
+        </label>
+
+        <input
+            type="text"
+            id="category"
+            placeholder="Example: Reels, YouTube, Gaming"
+            required
+        >
+
+        <button
+            type="submit"
+            id="uploadButton"
+        >
+            Upload Sample
+        </button>
+
+    </form>
+
+    <a
+        href="#"
+        id="viewProfileButton"
+        class="button"
+    >
+        View Final Profile
+    </a>
 
     <div id="result"></div>
 
-    <div id="preview"></div>
+    <div id="uploadedSample">
+
+        <h2 id="uploadedTitle"></h2>
+
+        <p id="uploadedCategory"></p>
+
+        <video
+            id="uploadedVideo"
+            controls
+            muted
+            playsinline
+        ></video>
+
+    </div>
+
+    <div class="warning">
+        Only upload work you own or have permission to display.
+        Do not upload confidential client footage without written permission.
+    </div>
 
 </div>
 
 <script>
-    const profileId = localStorage.getItem("profileId");
+    const profileId =
+        localStorage.getItem("profileId");
+
+    const username =
+        localStorage.getItem("username");
+
+    const token =
+        localStorage.getItem("token");
+
+    const uploadForm =
+        document.getElementById("uploadForm");
+
+    const uploadButton =
+        document.getElementById("uploadButton");
+
+    const resultBox =
+        document.getElementById("result");
+
+    const viewProfileButton =
+        document.getElementById("viewProfileButton");
+
+    const uploadedSample =
+        document.getElementById("uploadedSample");
+
+    const uploadedTitle =
+        document.getElementById("uploadedTitle");
+
+    const uploadedCategory =
+        document.getElementById("uploadedCategory");
+
+    const uploadedVideo =
+        document.getElementById("uploadedVideo");
+
+    function createMediaUrl(filePath) {
+        if (!filePath) {
+            return "";
+        }
+
+        if (
+            filePath.startsWith("http://") ||
+            filePath.startsWith("https://")
+        ) {
+            return filePath;
+        }
+
+        if (!filePath.startsWith("/")) {
+            filePath = "/" + filePath;
+        }
+
+        return window.location.origin + filePath;
+    }
+
+    function setProfileLink() {
+        if (username) {
+            viewProfileButton.href =
+                "editor-profile-view.html?username=" +
+                encodeURIComponent(username);
+        } else {
+            viewProfileButton.href =
+                "find-editors.html";
+        }
+    }
+
+    setProfileLink();
 
     if (!profileId) {
-        alert("Please create profile first");
-        window.location.href = "create-profile.html";
-    }
-
-    async function uploadVideo() {
-        const video = document.getElementById("video").files[0];
-        const title = document.getElementById("title").value;
-        const category = document.getElementById("category").value;
-
-        if (!video) {
-            document.getElementById("result").innerText =
-                "Please select a video first";
-            return;
-        }
-
-        const formData = new FormData();
-
-        formData.append("video", video);
-        formData.append("title", title);
-        formData.append("category", category);
-
-        const response = await fetch(
-            "https://reciproca-learning.onrender.com/api/upload/sample-work/" + profileId,
-            {
-                method: "POST",
-                body: formData
-            }
+        alert(
+            "Profile ID is missing. Please create your profile again."
         );
 
-        const data = await response.json();
+        window.location.href =
+            "create-profile.html";
+    }
 
-        document.getElementById("result").innerText =
-            data.message;
+    uploadForm.addEventListener(
+        "submit",
+        async function(event) {
+            event.preventDefault();
 
-        if (data.success === true) {
-            const latest =
-                data.sampleWorks[data.sampleWorks.length - 1];
+            const videoFile =
+                document.getElementById("video").files[0];
 
-            const videoLink =
-                "https://reciproca-learning.onrender.com" + latest.videoUrl;
+            const title =
+                document.getElementById("title")
+                    .value
+                    .trim();
 
-            document.getElementById("preview").innerHTML = `
-                <h3>${latest.title}</h3>
-                <p>${latest.category}</p>
+            const category =
+                document.getElementById("category")
+                    .value
+                    .trim();
 
-                <video controls>
-                    <source src="${videoLink}">
-                </video>
-            `;
+            if (!videoFile) {
+                resultBox.style.color = "red";
+                resultBox.innerText =
+                    "Please choose a video file.";
+
+                return;
+            }
+
+            if (videoFile.size > 100 * 1024 * 1024) {
+                resultBox.style.color = "red";
+                resultBox.innerText =
+                    "Video must be smaller than 100 MB.";
+
+                return;
+            }
+
+            uploadButton.disabled = true;
+            uploadButton.innerText =
+                "Uploading Sample...";
+
+            resultBox.style.color = "#000";
+            resultBox.innerText =
+                "Please wait. Your sample video is uploading.";
+
+            try {
+                const formData =
+                    new FormData();
+
+                formData.append(
+                    "video",
+                    videoFile
+                );
+
+                formData.append(
+                    "title",
+                    title || "Sample Work"
+                );
+
+                formData.append(
+                    "category",
+                    category || "General"
+                );
+
+                const response = await fetch(
+                    "/api/upload/sample-work/" +
+                    encodeURIComponent(profileId),
+                    {
+                        method: "POST",
+
+                        headers: token
+                            ? {
+                                Authorization:
+                                    "Bearer " + token
+                            }
+                            : {},
+
+                        body: formData
+                    }
+                );
+
+                const data =
+                    await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.message ||
+                        data.error ||
+                        "Sample upload failed"
+                    );
+                }
+
+                const sampleWorks =
+                    Array.isArray(data.sampleWorks)
+                        ? data.sampleWorks
+                        : [];
+
+                const latestSample =
+                    sampleWorks[
+                        sampleWorks.length - 1
+                    ];
+
+                if (!latestSample) {
+                    throw new Error(
+                        "Upload completed, but sample data was not returned."
+                    );
+                }
+
+                localStorage.setItem(
+                    "lastSampleVideo",
+                    latestSample.videoUrl
+                );
+
+                resultBox.style.color = "green";
+                resultBox.innerText =
+                    "Sample Work Uploaded Successfully";
+
+                uploadedTitle.innerText =
+                    latestSample.title ||
+                    title ||
+                    "Sample Work";
+
+                uploadedCategory.innerText =
+                    latestSample.category ||
+                    category ||
+                    "General";
+
+                uploadedVideo.src =
+                    createMediaUrl(
+                        latestSample.videoUrl
+                    );
+
+                uploadedVideo.load();
+
+                uploadedSample.style.display =
+                    "block";
+
+                uploadForm.reset();
+
+            } catch (error) {
+                console.error(error);
+
+                resultBox.style.color = "red";
+                resultBox.innerText =
+                    error.message ||
+                    "Server Error";
+            } finally {
+                uploadButton.disabled = false;
+                uploadButton.innerText =
+                    "Upload Sample";
+            }
         }
-    }
-
-    function viewProfile() {
-        window.location.href = "editor-profile-view.html";
-    }
+    );
 </script>
 
 </body>
